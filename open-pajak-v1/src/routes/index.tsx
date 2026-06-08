@@ -49,7 +49,7 @@ const calculatorCards = [
   },
 ]
 
-const GITHUB_URL = 'https://github.com/hamardikan/open-pajak'
+const GITHUB_URL = 'https://github.com/muhalpi/hitung-pajak'
 
 function HomePage() {
   const { t } = useTranslation()

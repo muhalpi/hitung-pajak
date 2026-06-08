@@ -7,7 +7,7 @@ import { cn } from '../lib/cn'
 import { Button } from './ui/button'
 import type { ReactNode } from 'react'
 
-const GITHUB_URL = 'https://github.com/hamardikan/open-pajak'
+const GITHUB_URL = 'https://github.com/muhalpi/hitung-pajak'
 
 const NAV_LINKS: Array<{ to: string; labelKey: string }> = [
   { to: '/', labelKey: 'app.nav.home' },
