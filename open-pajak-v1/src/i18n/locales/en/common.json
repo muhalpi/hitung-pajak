@@ -415,7 +415,9 @@
     "summary": {
       "label": "VAT due",
       "metaInclusive": "Price is VAT-inclusive",
-      "metaExclusive": "Price excludes VAT"
+      "metaExclusive": "Price excludes VAT",
+      "metaPmk131": "PMK 131/2024: Other Value DPP 11/12",
+      "metaLuxury": "Luxury goods: full DPP"
     },
     "explanationTitle": "VAT formula",
     "form": {
@@ -425,8 +427,14 @@
       "basePriceDesc": "Enter VAT-inclusive price if toggle below is on.",
       "discount": "Discount (-)",
       "otherCosts": "Other costs (+)",
+      "transactionType": "Transaction type",
+      "transactionTypeDesc": "For 2025, non-luxury goods/services use 11/12 Other Value DPP; luxury goods use full DPP.",
+      "transactionTypeOptions": {
+        "standard": "Non-luxury goods/services (11/12 DPP)",
+        "luxury": "Luxury goods subject to PPnBM (full DPP)"
+      },
       "customRate": "Custom rate (optional)",
-      "customRateDesc": "In percent.",
+      "customRateDesc": "In percent. When filled, the PMK 131/2024 preset is not used.",
       "toggleTitle": "Is the price VAT-inclusive?",
       "toggleHint": "Toggle to split the amount into DPP + VAT.",
       "toggleTrue": "Yes, inclusive",
@@ -434,28 +442,38 @@
     },
     "explanation": [
       "If price excludes VAT: DPP = price − discount + other costs.",
-      "If price includes VAT: DPP = price / (1 + rate).",
-      "VAT = DPP × rate; total invoice = DPP + VAT."
+      "From 2025, non-luxury goods/services use Other Value DPP of 11/12 of transaction value, producing an 11% effective rate.",
+      "Luxury goods subject to PPnBM use the 12% VAT rate on the full DPP.",
+      "If price includes VAT, transaction value is backed out using the applicable effective rate."
     ],
     "info": {
       "title": "Good practices",
       "items": [
         "Ensure discounts are deducted from DPP.",
-        "Use custom rates only if you have PMK incentives.",
+        "Use the luxury goods option only for goods classified as luxury and subject to PPnBM.",
+        "Use custom rates when a transaction follows other DPP nilai lain or fixed-amount rules.",
         "Keep invoice numbers for audit trail."
       ]
     },
     "breakdown": {
       "baseSection": "Tax base",
+      "transactionValue": "Transaction value",
       "dpp": "DPP",
+      "dppNilaiLain": "Other Value DPP",
       "taxSection": "VAT calculation",
       "rate": "VAT rate",
+      "effectiveRate": "Effective rate",
       "tax": "VAT due",
       "total": "Total invoice"
     },
     "notes": {
+      "transactionInclusive": "transaction value before VAT from VAT-inclusive price",
+      "transactionExclusive": "selling price/compensation/import value before VAT",
+      "dppNilaiLain": "PMK 131/2024: 11/12 x transaction value",
       "dppInclusive": "price is VAT-inclusive",
-      "dppExclusive": "price before VAT"
+      "dppExclusive": "price before VAT",
+      "statutoryRate": "rate applied to Other Value DPP",
+      "effectiveRate": "12% x 11/12"
     }
   },
   "ppnbmCalc": {

@@ -1,8 +1,8 @@
+import { useTranslation } from 'react-i18next'
 import { cn } from '../lib/cn'
 import { Card } from './ui/card'
 import { FormulaSourceNote } from './FormulaSourceNote'
 import type { ReactNode } from 'react'
-import { useTranslation } from 'react-i18next'
 
 interface TaxPageLayoutProps {
   title: string

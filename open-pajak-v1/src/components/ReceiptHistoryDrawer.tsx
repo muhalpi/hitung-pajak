@@ -1,10 +1,10 @@
-import type { ChangeEvent } from 'react'
 import { useMemo, useState } from 'react'
-import { X, Download, Eye, Trash2 } from 'lucide-react'
+import { Download, Eye, Trash2, X } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { Button } from './ui/button'
-import type { ReceiptBatch, TaxReceipt } from '../lib/storage/receipts'
 import { Input } from './ui/input'
+import type { ReceiptBatch, TaxReceipt } from '../lib/storage/receipts'
+import type { ChangeEvent } from 'react'
 
 interface ReceiptHistoryDrawerProps {
   open: boolean
@@ -40,21 +40,31 @@ export function ReceiptHistoryDrawer({
 }: ReceiptHistoryDrawerProps) {
   const { t } = useTranslation()
   const grouped = useMemo(() => {
-    const groups = receipts.reduce<Record<string, Array<TaxReceipt>>>((acc, entry) => {
+    const groups = receipts.reduce<
+      Record<string, Array<TaxReceipt> | undefined>
+    >((acc, entry) => {
       const key = entry.groupId ?? 'ungrouped'
-      if (!acc[key]) acc[key] = []
-      acc[key].push(entry)
+      const group = acc[key] ?? []
+      group.push(entry)
+      acc[key] = group
       return acc
     }, {})
-    return Object.entries(groups).map(([groupId, list]) => ({
-      groupId,
-      groupName: list[0]?.groupName ?? t('receipts.history.groupLabel'),
-      entries: list,
-    }))
+    return Object.entries(groups).map(([groupId, list]) => {
+      const entries = list ?? []
+      return {
+        groupId,
+        groupName: entries[0]?.groupName ?? t('receipts.history.groupLabel'),
+        entries,
+      }
+    })
   }, [receipts, t])
   const [searchTerm, setSearchTerm] = useState('')
-  const [sortMode, setSortMode] = useState<'newest' | 'oldest' | 'name'>('newest')
-  const [expandedBatches, setExpandedBatches] = useState<Record<string, boolean>>({})
+  const [sortMode, setSortMode] = useState<'newest' | 'oldest' | 'name'>(
+    'newest',
+  )
+  const [expandedBatches, setExpandedBatches] = useState<
+    Record<string, boolean>
+  >({})
   const receiptMap = useMemo(() => {
     const map = new Map<string, TaxReceipt>()
     receipts.forEach((entry) => map.set(entry.id, entry))
@@ -65,7 +75,9 @@ export function ReceiptHistoryDrawer({
     const term = searchTerm.trim().toLowerCase()
     const compare = (a: TaxReceipt, b: TaxReceipt) => {
       if (sortMode === 'name') {
-        return a.title.localeCompare(b.title, undefined, { sensitivity: 'base' })
+        return a.title.localeCompare(b.title, undefined, {
+          sensitivity: 'base',
+        })
       }
       const aTime = new Date(a.createdAt).getTime()
       const bTime = new Date(b.createdAt).getTime()
@@ -77,7 +89,8 @@ export function ReceiptHistoryDrawer({
         const filteredEntries = group.entries
           .filter((entry) => {
             if (!term) return true
-            const haystack = `${entry.title} ${entry.identifier ?? ''} ${group.groupName ?? ''}`.toLowerCase()
+            const haystack =
+              `${entry.title} ${entry.identifier ?? ''} ${group.groupName}`.toLowerCase()
             return haystack.includes(term)
           })
           .sort(compare)
@@ -119,7 +132,12 @@ export function ReceiptHistoryDrawer({
             {t('receipts.history.recordsCount', { count: receipts.length })}
           </p>
         </div>
-        <Button variant="ghost" size="icon" onClick={onClose} aria-label={t('app.buttons.closeNav')}>
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={onClose}
+          aria-label={t('app.buttons.closeNav')}
+        >
           <X />
         </Button>
       </div>
@@ -138,7 +156,9 @@ export function ReceiptHistoryDrawer({
             </label>
             <select
               value={sortMode}
-              onChange={(event) => setSortMode(event.target.value as typeof sortMode)}
+              onChange={(event) =>
+                setSortMode(event.target.value as typeof sortMode)
+              }
               className="rounded-xl border border-[#d7dbe8] px-3 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-[#0f1e3d]"
             >
               <option value="newest">{t('receipts.history.sortNewest')}</option>
@@ -159,7 +179,10 @@ export function ReceiptHistoryDrawer({
             </p>
           ) : (
             filteredGroups.map((group) => (
-              <div key={group.groupId} className="rounded-2xl border border-[#0f1e3d]/10 bg-white p-4 shadow-sm">
+              <div
+                key={group.groupId}
+                className="rounded-2xl border border-[#0f1e3d]/10 bg-white p-4 shadow-sm"
+              >
                 <div className="mb-3 flex items-center justify-between">
                   <div>
                     <p className="text-sm font-semibold text-[#0f1e3d]">
@@ -167,7 +190,9 @@ export function ReceiptHistoryDrawer({
                     </p>
                     <p className="text-xs uppercase tracking-[0.3em] text-[#0f1e3d]/60">
                       {group.entries.length}{' '}
-                      {t('receipts.history.countLabel', { count: group.entries.length })}
+                      {t('receipts.history.countLabel', {
+                        count: group.entries.length,
+                      })}
                     </p>
                   </div>
                 </div>
@@ -179,24 +204,45 @@ export function ReceiptHistoryDrawer({
                     >
                       <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
                         <div>
-                          <p className="font-semibold text-[#0f1e3d]">{entry.title}</p>
+                          <p className="font-semibold text-[#0f1e3d]">
+                            {entry.title}
+                          </p>
                           <p className="text-xs uppercase tracking-[0.3em] text-[#5f6680]">
                             {entry.type.toUpperCase()} ·{' '}
                             {formatDate(entry.createdAt, entry.locale)}
                           </p>
                         </div>
                         <div className="flex flex-wrap gap-2">
-                          <Button variant="ghost" size="sm" onClick={() => onView(entry)}>
-                            <Eye className="mr-1 size-4" /> {t('receipts.actions.preview')}
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => onView(entry)}
+                          >
+                            <Eye className="mr-1 size-4" />{' '}
+                            {t('receipts.actions.preview')}
                           </Button>
-              <Button variant="outline" size="sm" onClick={() => onDownloadReceipt(entry)}>
-                <Download className="mr-1 size-4" /> {t('receipts.actions.downloadExcel')}
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => onDownloadReceipt(entry)}
+                          >
+                            <Download className="mr-1 size-4" />{' '}
+                            {t('receipts.actions.downloadExcel')}
                           </Button>
-                          <Button variant="ghost" size="sm" onClick={() => onPrintReceipt(entry)}>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => onPrintReceipt(entry)}
+                          >
                             {t('receipts.actions.downloadPdf')}
                           </Button>
-                          <Button variant="ghost" size="sm" onClick={() => onDelete(entry)}>
-                            <Trash2 className="mr-1 size-4" /> {t('receipts.actions.delete')}
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => onDelete(entry)}
+                          >
+                            <Trash2 className="mr-1 size-4" />{' '}
+                            {t('receipts.actions.delete')}
                           </Button>
                         </div>
                       </div>
@@ -211,7 +257,9 @@ export function ReceiptHistoryDrawer({
             <p className="text-sm font-semibold text-[#0f1e3d]">
               {t('receipts.bulk.title')}
             </p>
-            <p className="text-xs text-[#0f1e3d]/70">{t('receipts.bulk.description')}</p>
+            <p className="text-xs text-[#0f1e3d]/70">
+              {t('receipts.bulk.description')}
+            </p>
             <div className="mt-3 flex flex-wrap gap-2">
               <Button variant="outline" size="sm" onClick={onTemplateDownload}>
                 {t('receipts.bulk.downloadTemplate')}
@@ -246,7 +294,9 @@ export function ReceiptHistoryDrawer({
               {t('receipts.history.batchTitle')}
             </p>
             {batches.length === 0 ? (
-              <p className="text-xs text-[#0f1e3d]/70">{t('receipts.history.batchEmpty')}</p>
+              <p className="text-xs text-[#0f1e3d]/70">
+                {t('receipts.history.batchEmpty')}
+              </p>
             ) : (
               <div className="mt-3 space-y-3">
                 {batches.map((batch) => {
@@ -261,13 +311,20 @@ export function ReceiptHistoryDrawer({
                     >
                       <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
                         <div>
-                          <p className="font-semibold text-[#0f1e3d]">{batch.label}</p>
+                          <p className="font-semibold text-[#0f1e3d]">
+                            {batch.label}
+                          </p>
                           <p className="text-xs uppercase tracking-[0.3em] text-[#5f6680]">
-                            {batch.type.toUpperCase()} · {formatDate(batch.createdAt)}
+                            {batch.type.toUpperCase()} ·{' '}
+                            {formatDate(batch.createdAt)}
                           </p>
                         </div>
                         <div className="flex flex-wrap gap-2">
-                          <Button variant="outline" size="sm" onClick={() => onDownloadBatch(batch)}>
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => onDownloadBatch(batch)}
+                          >
                             <Download className="mr-1 size-4" />{' '}
                             {t('receipts.history.downloadBatch')}
                           </Button>
@@ -293,19 +350,36 @@ export function ReceiptHistoryDrawer({
                             >
                               <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
                                 <div>
-                                  <p className="font-semibold text-[#0f1e3d]">{entry.title}</p>
+                                  <p className="font-semibold text-[#0f1e3d]">
+                                    {entry.title}
+                                  </p>
                                   <p className="text-xs uppercase tracking-[0.3em] text-[#5f6680]">
-                                    {entry.type.toUpperCase()} · {formatDate(entry.createdAt, entry.locale)}
+                                    {entry.type.toUpperCase()} ·{' '}
+                                    {formatDate(entry.createdAt, entry.locale)}
                                   </p>
                                 </div>
                                 <div className="flex flex-wrap gap-2">
-                                  <Button variant="ghost" size="sm" onClick={() => onView(entry)}>
-                                    <Eye className="mr-1 size-4" /> {t('receipts.actions.preview')}
+                                  <Button
+                                    variant="ghost"
+                                    size="sm"
+                                    onClick={() => onView(entry)}
+                                  >
+                                    <Eye className="mr-1 size-4" />{' '}
+                                    {t('receipts.actions.preview')}
                                   </Button>
-                                  <Button variant="outline" size="sm" onClick={() => onDownloadReceipt(entry)}>
-                                    <Download className="mr-1 size-4" /> {t('receipts.actions.downloadExcel')}
+                                  <Button
+                                    variant="outline"
+                                    size="sm"
+                                    onClick={() => onDownloadReceipt(entry)}
+                                  >
+                                    <Download className="mr-1 size-4" />{' '}
+                                    {t('receipts.actions.downloadExcel')}
                                   </Button>
-                                  <Button variant="ghost" size="sm" onClick={() => onPrintReceipt(entry)}>
+                                  <Button
+                                    variant="ghost"
+                                    size="sm"
+                                    onClick={() => onPrintReceipt(entry)}
+                                  >
                                     {t('receipts.actions.downloadPdf')}
                                   </Button>
                                 </div>

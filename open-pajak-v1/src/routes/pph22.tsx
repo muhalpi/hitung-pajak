@@ -160,13 +160,17 @@ function Pph22Page() {
       explanation={
         <FormulaExplanationCard
           title={t('pph22.explanationTitle')}
-          steps={t('pph22.explanation', { returnObjects: true }) as string[]}
+          steps={
+            t('pph22.explanation', { returnObjects: true }) as Array<string>
+          }
         />
       }
       info={
         <InfoAlert
           title={t('pph22.info.title')}
-          items={t('pph22.info.items', { returnObjects: true }) as string[]}
+          items={
+            t('pph22.info.items', { returnObjects: true }) as Array<string>
+          }
         />
       }
     />

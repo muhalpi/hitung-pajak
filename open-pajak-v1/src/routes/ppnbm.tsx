@@ -72,10 +72,7 @@ function PpnbmPage() {
             </div>
           }
         >
-          <FormField
-            label={t('ppnbmCalc.form.goodsType')}
-            htmlFor="goodsType"
-          >
+          <FormField label={t('ppnbmCalc.form.goodsType')} htmlFor="goodsType">
             <Select
               id="goodsType"
               value={form.goodsType}
@@ -130,19 +127,6 @@ function PpnbmPage() {
               }
             />
           </FormField>
-
-          <Button
-            variant="outline"
-            onClick={() =>
-              setForm({
-                goodsType: 'kendaraanMewah',
-                dppPpn: 500000000,
-                customRate: 0,
-              })
-            }
-          >
-            {t('app.buttons.useSample')}
-          </Button>
         </TaxFormSection>
       }
       summary={
@@ -156,13 +140,17 @@ function PpnbmPage() {
       explanation={
         <FormulaExplanationCard
           title={t('ppnbmCalc.explanationTitle')}
-          steps={t('ppnbmCalc.explanation', { returnObjects: true }) as string[]}
+          steps={
+            t('ppnbmCalc.explanation', { returnObjects: true }) as Array<string>
+          }
         />
       }
       info={
         <InfoAlert
           title={t('ppnbmCalc.info.title')}
-          items={t('ppnbmCalc.info.items', { returnObjects: true }) as string[]}
+          items={
+            t('ppnbmCalc.info.items', { returnObjects: true }) as Array<string>
+          }
         />
       }
     />

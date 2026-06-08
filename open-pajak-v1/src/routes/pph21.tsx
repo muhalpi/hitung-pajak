@@ -1,5 +1,4 @@
 import { createFileRoute } from '@tanstack/react-router'
-import type { TFunction } from 'i18next'
 import { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FormField } from '../components/FormField'
@@ -17,9 +16,6 @@ import { Input } from '../components/ui/input'
 import { NumberInput } from '../components/ui/number-input'
 import { Select } from '../components/ui/select'
 import { calculatePph21 } from '../lib/tax/pph21'
-import type { PPh21SubjectType } from '../lib/tax/pph21'
-import type { TaxBreakdownRow } from '../lib/tax/types'
-import type { ReceiptPreviewData } from '../components/ReceiptPreview'
 import { useReceipts } from '../lib/hooks/useReceipts'
 import {
   downloadBatchWorkbook,
@@ -28,6 +24,10 @@ import {
   openPrintableReceipt,
   parseSpreadsheetXml,
 } from '../lib/receiptExport'
+import type { PPh21SubjectType } from '../lib/tax/pph21'
+import type { TaxBreakdownRow } from '../lib/tax/types'
+import type { ReceiptPreviewData } from '../components/ReceiptPreview'
+import type { TFunction } from 'i18next'
 import type { ReceiptTaxType, TaxReceipt } from '../lib/storage/receipts'
 
 export const Route = createFileRoute('/pph21')({
@@ -37,10 +37,19 @@ export const Route = createFileRoute('/pph21')({
 const SUBJECT_OPTIONS: Array<{ value: PPh21SubjectType; labelKey: string }> = [
   { value: 'pegawai_tetap', labelKey: 'pph21.subjectOptions.pegawai_tetap' },
   { value: 'pensiunan', labelKey: 'pph21.subjectOptions.pensiunan' },
-  { value: 'pegawai_tidak_tetap', labelKey: 'pph21.subjectOptions.pegawai_tidak_tetap' },
+  {
+    value: 'pegawai_tidak_tetap',
+    labelKey: 'pph21.subjectOptions.pegawai_tidak_tetap',
+  },
   { value: 'bukan_pegawai', labelKey: 'pph21.subjectOptions.bukan_pegawai' },
-  { value: 'peserta_kegiatan', labelKey: 'pph21.subjectOptions.peserta_kegiatan' },
-  { value: 'program_pensiun', labelKey: 'pph21.subjectOptions.program_pensiun' },
+  {
+    value: 'peserta_kegiatan',
+    labelKey: 'pph21.subjectOptions.peserta_kegiatan',
+  },
+  {
+    value: 'program_pensiun',
+    labelKey: 'pph21.subjectOptions.program_pensiun',
+  },
   { value: 'mantan_pegawai', labelKey: 'pph21.subjectOptions.mantan_pegawai' },
   { value: 'wpln', labelKey: 'pph21.subjectOptions.wpln' },
 ]
@@ -296,7 +305,8 @@ const buildSnapshot = ({
   isDailyWorker,
 })
 
-const clampMonthsValue = (value: number) => Math.min(12, Math.max(1, Math.round(value || 1)))
+const clampMonthsValue = (value: number) =>
+  Math.min(12, Math.max(1, Math.round(value || 1)))
 
 const parseSpreadsheetRows = (matrix: Array<Array<string>>): Array<BulkRow> => {
   if (!matrix.length) return []
@@ -323,10 +333,13 @@ const readBulkFile = async (file: File) => {
 function Pph21Page() {
   const { t, i18n } = useTranslation()
   const [form, setForm] = useState<Pph21FormState>(createSampleForm)
-  const { receipts, batches, saveReceipt, deleteReceipt, saveBatch } = useReceipts()
+  const { receipts, batches, saveReceipt, deleteReceipt, saveBatch } =
+    useReceipts()
   const [modalData, setModalData] = useState<ReceiptPreviewData | null>(null)
   const [modalMode, setModalMode] = useState<'draft' | 'saved'>('draft')
-  const [selectedReceipt, setSelectedReceipt] = useState<TaxReceipt | null>(null)
+  const [selectedReceipt, setSelectedReceipt] = useState<TaxReceipt | null>(
+    null,
+  )
   const [historyOpen, setHistoryOpen] = useState(false)
   const [bulkStatus, setBulkStatus] = useState<BulkStatus>({ state: 'idle' })
 
@@ -339,10 +352,7 @@ function Pph21Page() {
     }
   }, [form.ptkpStatus, form.subjectType, form.terCategory])
 
-  const handleNumberChange = (
-    field: keyof typeof form,
-    value: string,
-  ) => {
+  const handleNumberChange = (field: keyof typeof form, value: string) => {
     const numeric = Number(value)
     setForm((prev) => ({
       ...prev,
@@ -387,7 +397,12 @@ function Pph21Page() {
     () => extractMetrics(result.breakdown),
     [result.breakdown, i18n.language],
   )
-  const { takeHomeAnnual, takeHomePerPeriod, terPerPeriod, decemberAdjustment } = metrics
+  const {
+    takeHomeAnnual,
+    takeHomePerPeriod,
+    terPerPeriod,
+    decemberAdjustment,
+  } = metrics
   const summaryPayload = useMemo(
     () => ({
       totalTax: result.totalTax,
@@ -396,9 +411,16 @@ function Pph21Page() {
       terPerPeriod,
       decemberAdjustment,
     }),
-    [result.totalTax, takeHomeAnnual, takeHomePerPeriod, terPerPeriod, decemberAdjustment],
+    [
+      result.totalTax,
+      takeHomeAnnual,
+      takeHomePerPeriod,
+      terPerPeriod,
+      decemberAdjustment,
+    ],
   )
-  const receiptType: ReceiptTaxType = form.subjectType === 'wpln' ? 'pph26' : 'pph21'
+  const receiptType: ReceiptTaxType =
+    form.subjectType === 'wpln' ? 'pph26' : 'pph21'
   const subjectLabel = t(`pph21.subjectOptions.${form.subjectType}`)
   const schemeLabel = t(`pph21.schemeOptions.${form.scheme}`)
   const formSnapshot = useMemo(
@@ -479,7 +501,7 @@ function Pph21Page() {
 
   const infoItems = t('pph21.info.points', {
     returnObjects: true,
-  }) as string[]
+  }) as Array<string>
 
   const openPreview = () => {
     setModalMode('draft')
@@ -589,7 +611,9 @@ function Pph21Page() {
   const handleDownloadBatch = (batchId: string) => {
     const batch = batches.find((item) => item.id === batchId)
     if (!batch) return
-    const entries = receipts.filter((entry) => batch.recordIds.includes(entry.id))
+    const entries = receipts.filter((entry) =>
+      batch.recordIds.includes(entry.id),
+    )
     if (!entries.length) return
     downloadBatchWorkbook(batch, entries)
   }
@@ -628,9 +652,11 @@ function Pph21Page() {
         const terCategory = (row.terCategory ?? 'A').toUpperCase()
         const ter =
           terCategory === 'A' || terCategory === 'B' || terCategory === 'C'
-            ? (terCategory as 'A' | 'B' | 'C')
+            ? terCategory
             : 'A'
-        const ptkp = ptkpOptions.includes(row.ptkpStatus ?? '') ? (row.ptkpStatus as string) : 'TK/0'
+        const ptkp = ptkpOptions.includes(row.ptkpStatus ?? '')
+          ? (row.ptkpStatus as string)
+          : 'TK/0'
         const foreignRate = toNumber(row.foreignTaxRate)
         const resultBulk = calculatePph21({
           subjectType,
@@ -684,7 +710,8 @@ function Pph21Page() {
         setBulkStatus({ state: 'error', message: t('receipts.bulk.error') })
         return
       }
-      const label = rows[0]?.groupName?.trim() || file.name.replace(/\.[^.]+$/, '')
+      const label =
+        rows[0]?.groupName?.trim() || file.name.replace(/\.[^.]+$/, '')
       const batchType =
         created.every((entry) => entry.type === 'pph26') && created.length > 0
           ? 'pph26'
@@ -700,7 +727,10 @@ function Pph21Page() {
       })
       setBulkStatus({
         state: 'success',
-        message: t('receipts.bulk.success', { count: created.length, group: batch.label }),
+        message: t('receipts.bulk.success', {
+          count: created.length,
+          group: batch.label,
+        }),
       })
     } catch (error) {
       console.error(error)
@@ -736,7 +766,10 @@ function Pph21Page() {
               </>
             }
           >
-            <FormField label={t('pph21.form.fields.subjectType')} htmlFor="subjectType">
+            <FormField
+              label={t('pph21.form.fields.subjectType')}
+              htmlFor="subjectType"
+            >
               <Select
                 id="subjectType"
                 value={form.subjectType}
@@ -817,7 +850,10 @@ function Pph21Page() {
             {form.subjectType !== 'wpln' && (
               <>
                 <div className="grid gap-4 md:grid-cols-2">
-                  <FormField label={t('pph21.form.fields.ptkpStatus')} htmlFor="ptkpStatus">
+                  <FormField
+                    label={t('pph21.form.fields.ptkpStatus')}
+                    htmlFor="ptkpStatus"
+                  >
                     <Select
                       id="ptkpStatus"
                       value={form.ptkpStatus}
@@ -857,7 +893,10 @@ function Pph21Page() {
                 </FormField>
 
                 <div className="grid gap-4 md:grid-cols-2">
-                  <FormField label={t('pph21.form.fields.scheme')} htmlFor="scheme">
+                  <FormField
+                    label={t('pph21.form.fields.scheme')}
+                    htmlFor="scheme"
+                  >
                     <Select
                       id="scheme"
                       value={form.scheme}
@@ -868,8 +907,12 @@ function Pph21Page() {
                         }))
                       }
                     >
-                      <option value="lama">{t('pph21.schemeOptions.lama')}</option>
-                      <option value="ter">{t('pph21.schemeOptions.ter')}</option>
+                      <option value="lama">
+                        {t('pph21.schemeOptions.lama')}
+                      </option>
+                      <option value="ter">
+                        {t('pph21.schemeOptions.ter')}
+                      </option>
                     </Select>
                   </FormField>
 
@@ -946,7 +989,9 @@ function Pph21Page() {
 
             {hasError && (
               <p className="text-sm text-red-600">
-                {t('errors.positiveOnly', { defaultValue: 'Gunakan angka positif.' })}
+                {t('errors.positiveOnly', {
+                  defaultValue: 'Gunakan angka positif.',
+                })}
               </p>
             )}
           </TaxFormSection>
@@ -965,7 +1010,9 @@ function Pph21Page() {
         explanation={
           <FormulaExplanationCard
             title={t('pph21.explanationTitle')}
-            steps={t('pph21.explanation', { returnObjects: true }) as string[]}
+            steps={
+              t('pph21.explanation', { returnObjects: true }) as Array<string>
+            }
           />
         }
         toolbar={

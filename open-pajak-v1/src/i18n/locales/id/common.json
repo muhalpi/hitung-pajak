@@ -415,7 +415,9 @@
     "summary": {
       "label": "PPN terutang",
       "metaInclusive": "Harga sudah termasuk PPN",
-      "metaExclusive": "Harga belum termasuk PPN"
+      "metaExclusive": "Harga belum termasuk PPN",
+      "metaPmk131": "PMK 131/2024: DPP Nilai Lain 11/12",
+      "metaLuxury": "BKP mewah: DPP penuh"
     },
     "explanationTitle": "Formula DPP",
     "form": {
@@ -425,8 +427,14 @@
       "basePriceDesc": "Isi harga termasuk PPN jika mode di bawah aktif.",
       "discount": "Diskon (-)",
       "otherCosts": "Biaya lain (+)",
+      "transactionType": "Jenis transaksi",
+      "transactionTypeDesc": "Untuk 2025, non-mewah memakai DPP Nilai Lain 11/12; BKP mewah memakai DPP penuh.",
+      "transactionTypeOptions": {
+        "standard": "BKP/JKP non-mewah (DPP 11/12)",
+        "luxury": "BKP mewah kena PPnBM (DPP penuh)"
+      },
       "customRate": "Tarif khusus (opsional)",
-      "customRateDesc": "Dalam persen.",
+      "customRateDesc": "Dalam persen. Jika diisi, preset PMK 131/2024 tidak dipakai.",
       "toggleTitle": "Harga sudah termasuk PPN?",
       "toggleHint": "Aktifkan untuk memecah nilai menjadi DPP + PPN.",
       "toggleTrue": "Ya, termasuk",
@@ -434,28 +442,38 @@
     },
     "explanation": [
       "Jika harga belum termasuk PPN: DPP = Harga jual - diskon + biaya lain.",
-      "Jika harga sudah termasuk PPN: DPP = Harga / (1 + tarif).",
-      "PPN = DPP × tarif; total tagihan = DPP + PPN."
+      "Mulai 2025, BKP/JKP non-mewah memakai DPP Nilai Lain sebesar 11/12 dari nilai transaksi sehingga tarif efektifnya 11%.",
+      "BKP mewah yang dikenai PPnBM memakai tarif PPN 12% atas DPP penuh.",
+      "Jika harga sudah termasuk PPN, nilai transaksi dikeluarkan dari harga memakai tarif efektif yang berlaku."
     ],
     "info": {
       "title": "Praktik baik",
       "items": [
         "Pastikan diskon sudah dikurangi dari DPP.",
-        "Gunakan tarif khusus bila memperoleh fasilitas PMK.",
+        "Gunakan pilihan BKP mewah hanya untuk barang yang tergolong mewah dan dikenai PPnBM.",
+        "Gunakan tarif khusus bila transaksi mengikuti DPP nilai lain atau besaran tertentu dari ketentuan lain.",
         "Simpan nomor faktur pajak untuk audit trail."
       ]
     },
     "breakdown": {
       "baseSection": "Dasar Pengenaan",
+      "transactionValue": "Nilai transaksi",
       "dpp": "DPP",
+      "dppNilaiLain": "DPP Nilai Lain",
       "taxSection": "Perhitungan PPN",
       "rate": "Tarif PPN",
+      "effectiveRate": "Tarif efektif",
       "tax": "PPN terutang",
       "total": "Total tagihan"
     },
     "notes": {
+      "transactionInclusive": "nilai transaksi sebelum PPN dari harga termasuk PPN",
+      "transactionExclusive": "harga jual/penggantian/nilai impor sebelum PPN",
+      "dppNilaiLain": "PMK 131/2024: 11/12 x nilai transaksi",
       "dppInclusive": "harga termasuk PPN",
-      "dppExclusive": "harga sebelum PPN"
+      "dppExclusive": "harga sebelum PPN",
+      "statutoryRate": "tarif dikalikan DPP Nilai Lain",
+      "effectiveRate": "12% x 11/12"
     }
   },
   "ppnbmCalc": {

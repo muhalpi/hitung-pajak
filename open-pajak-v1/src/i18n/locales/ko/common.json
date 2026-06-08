@@ -415,7 +415,9 @@
     "summary": {
       "label": "납부할 VAT",
       "metaInclusive": "가격에 VAT 포함",
-      "metaExclusive": "가격은 VAT 제외"
+      "metaExclusive": "가격은 VAT 제외",
+      "metaPmk131": "PMK 131/2024: 기타가액 DPP 11/12",
+      "metaLuxury": "고급 BKP: 전체 DPP"
     },
     "explanationTitle": "VAT 공식",
     "form": {
@@ -425,8 +427,14 @@
       "basePriceDesc": "아래 토글이 켜져 있으면 VAT 포함 금액을 입력하세요.",
       "discount": "할인 (-)",
       "otherCosts": "기타 비용 (+)",
+      "transactionType": "거래 유형",
+      "transactionTypeDesc": "2025년에는 비고급 BKP/JKP에 DPP Nilai Lain 11/12를 적용하고, 고급 BKP는 전체 DPP를 적용합니다.",
+      "transactionTypeOptions": {
+        "standard": "비고급 BKP/JKP (DPP 11/12)",
+        "luxury": "PPnBM 대상 고급 BKP (전체 DPP)"
+      },
       "customRate": "맞춤 세율 (선택)",
-      "customRateDesc": "백분율로 입력하세요.",
+      "customRateDesc": "백분율로 입력하세요. 입력하면 PMK 131/2024 프리셋을 사용하지 않습니다.",
       "toggleTitle": "가격에 VAT가 포함되어 있나요?",
       "toggleHint": "토글하여 금액을 DPP + VAT로 나눕니다.",
       "toggleTrue": "예, 포함",
@@ -434,28 +442,38 @@
     },
     "explanation": [
       "가격이 VAT 제외라면: DPP = 가격 − 할인 + 기타 비용.",
-      "가격이 VAT 포함이라면: DPP = 가격 / (1 + 세율).",
-      "VAT = DPP × 세율; 총 청구액 = DPP + VAT."
+      "2025년부터 비고급 BKP/JKP는 거래가액의 11/12를 DPP Nilai Lain으로 사용해 실효세율이 11%가 됩니다.",
+      "PPnBM 대상 고급 BKP는 전체 DPP에 12% PPN 세율을 적용합니다.",
+      "가격에 VAT가 포함되어 있으면 적용되는 실효세율로 거래가액을 역산합니다."
     ],
     "info": {
       "title": "권장 사항",
       "items": [
         "DPP에서 할인액을 빼는지 확인하세요.",
-        "PMK 인센티브가 있을 때만 맞춤 세율을 사용하세요.",
+        "고급 BKP 옵션은 PPnBM 대상 고급품으로 분류되는 경우에만 사용하세요.",
+        "다른 DPP nilai lain 또는 정액 규정이 적용되는 거래에는 맞춤 세율을 사용하세요.",
         "감사를 대비해 세금계산서 번호를 보관하세요."
       ]
     },
     "breakdown": {
       "baseSection": "과세 표준",
+      "transactionValue": "거래가액",
       "dpp": "DPP",
+      "dppNilaiLain": "DPP Nilai Lain",
       "taxSection": "VAT 계산",
       "rate": "VAT 세율",
+      "effectiveRate": "실효세율",
       "tax": "납부할 VAT",
       "total": "총 청구액"
     },
     "notes": {
+      "transactionInclusive": "VAT 포함 가격에서 역산한 VAT 전 거래가액",
+      "transactionExclusive": "VAT 전 판매가/대가/수입가액",
+      "dppNilaiLain": "PMK 131/2024: 11/12 x 거래가액",
       "dppInclusive": "가격에 VAT 포함",
-      "dppExclusive": "VAT 제외 가격"
+      "dppExclusive": "VAT 제외 가격",
+      "statutoryRate": "DPP Nilai Lain에 적용되는 세율",
+      "effectiveRate": "12% x 11/12"
     }
   },
   "ppnbmCalc": {

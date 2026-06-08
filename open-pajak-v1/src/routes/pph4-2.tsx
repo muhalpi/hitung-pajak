@@ -123,13 +123,21 @@ function Pph4Page() {
       explanation={
         <FormulaExplanationCard
           title={t('pph4_2_calc.explanationTitle')}
-          steps={t('pph4_2_calc.explanation', { returnObjects: true }) as string[]}
+          steps={
+            t('pph4_2_calc.explanation', {
+              returnObjects: true,
+            }) as Array<string>
+          }
         />
       }
       info={
         <InfoAlert
           title={t('pph4_2_calc.info.title')}
-          items={t('pph4_2_calc.info.items', { returnObjects: true }) as string[]}
+          items={
+            t('pph4_2_calc.info.items', {
+              returnObjects: true,
+            }) as Array<string>
+          }
         />
       }
     />

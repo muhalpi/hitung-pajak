@@ -34,7 +34,12 @@ export function TableBody({
   className,
   ...props
 }: HTMLAttributes<HTMLTableSectionElement>) {
-  return <tbody className={cn('divide-y divide-[#0f1e3d]/5', className)} {...props} />
+  return (
+    <tbody
+      className={cn('divide-y divide-[#0f1e3d]/5', className)}
+      {...props}
+    />
+  )
 }
 
 export function TableRow({

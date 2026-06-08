@@ -72,10 +72,7 @@ function Pph23Page() {
           }
         >
           <div className="grid gap-4 md:grid-cols-2">
-            <FormField
-              label={t('pph23.form.incomeType')}
-              htmlFor="serviceType"
-            >
+            <FormField label={t('pph23.form.incomeType')} htmlFor="serviceType">
               <Select
                 id="serviceType"
                 value={form.serviceType}
@@ -125,10 +122,7 @@ function Pph23Page() {
             </FormField>
           </div>
 
-          <FormField
-            label={t('pph23.form.gross')}
-            htmlFor="grossAmount"
-          >
+          <FormField label={t('pph23.form.gross')} htmlFor="grossAmount">
             <NumberInput
               id="grossAmount"
               value={form.grossAmount}
@@ -150,13 +144,17 @@ function Pph23Page() {
       explanation={
         <FormulaExplanationCard
           title={t('pph23.explanationTitle')}
-          steps={t('pph23.explanation', { returnObjects: true }) as string[]}
+          steps={
+            t('pph23.explanation', { returnObjects: true }) as Array<string>
+          }
         />
       }
       info={
         <InfoAlert
           title={t('pph23.info.title')}
-          items={t('pph23.info.items', { returnObjects: true }) as string[]}
+          items={
+            t('pph23.info.items', { returnObjects: true }) as Array<string>
+          }
         />
       }
     />

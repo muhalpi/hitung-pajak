@@ -415,7 +415,9 @@
     "summary": {
       "label": "应缴增值税",
       "metaInclusive": "价格含税",
-      "metaExclusive": "价格未含税"
+      "metaExclusive": "价格未含税",
+      "metaPmk131": "PMK 131/2024：其他价值DPP 11/12",
+      "metaLuxury": "奢侈BKP：完整DPP"
     },
     "explanationTitle": "DPP 公式",
     "form": {
@@ -425,8 +427,14 @@
       "basePriceDesc": "如启用下方开关，请输入含税价格。",
       "discount": "折扣 (-)",
       "otherCosts": "其他成本 (+)",
+      "transactionType": "交易类型",
+      "transactionTypeDesc": "2025年非奢侈BKP/JKP使用11/12的DPP Nilai Lain；奢侈BKP使用完整DPP。",
+      "transactionTypeOptions": {
+        "standard": "非奢侈BKP/JKP (DPP 11/12)",
+        "luxury": "适用PPnBM的奢侈BKP (完整DPP)"
+      },
       "customRate": "自定义税率 (可选)",
-      "customRateDesc": "以百分比表示。",
+      "customRateDesc": "以百分比表示。填写后不使用PMK 131/2024预设。",
       "toggleTitle": "售价是否含税？",
       "toggleHint": "开启以拆分为 DPP + 增值税。",
       "toggleTrue": "是，含税",
@@ -434,28 +442,38 @@
     },
     "explanation": [
       "未含税：DPP = 售价 − 折扣 + 成本。",
-      "含税：DPP = 售价 / (1 + 税率)。",
-      "VAT = DPP × 税率；合计 = DPP + VAT。"
+      "自2025年起，非奢侈BKP/JKP使用交易价值的11/12作为DPP Nilai Lain，因此有效税率为11%。",
+      "适用PPnBM的奢侈BKP按完整DPP适用12%的PPN税率。",
+      "如价格含税，则按适用的有效税率反算交易价值。"
     ],
     "info": {
       "title": "最佳实践",
       "items": [
         "确保折扣已从 DPP 扣除。",
-        "仅在享受 PMK 优惠时使用特殊税率。",
+        "仅当商品被归类为奢侈品并适用PPnBM时，才使用奢侈BKP选项。",
+        "当交易适用其他DPP nilai lain或固定金额规则时，使用自定义税率。",
         "保存发票编号以备审计。"
       ]
     },
     "breakdown": {
       "baseSection": "计税基础",
+      "transactionValue": "交易价值",
       "dpp": "DPP",
+      "dppNilaiLain": "DPP Nilai Lain",
       "taxSection": "增值税计算",
       "rate": "增值税税率",
+      "effectiveRate": "有效税率",
       "tax": "应缴增值税",
       "total": "应收总额"
     },
     "notes": {
+      "transactionInclusive": "从含税价格反算的税前交易价值",
+      "transactionExclusive": "税前售价/补偿/进口价值",
+      "dppNilaiLain": "PMK 131/2024：11/12 x 交易价值",
       "dppInclusive": "价格含税",
-      "dppExclusive": "价格未含税"
+      "dppExclusive": "价格未含税",
+      "statutoryRate": "适用于DPP Nilai Lain的税率",
+      "effectiveRate": "12% x 11/12"
     }
   },
   "ppnbmCalc": {

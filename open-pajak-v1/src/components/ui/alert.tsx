@@ -1,10 +1,7 @@
 import { cn } from '../../lib/cn'
 import type { HTMLAttributes } from 'react'
 
-export function Alert({
-  className,
-  ...props
-}: HTMLAttributes<HTMLDivElement>) {
+export function Alert({ className, ...props }: HTMLAttributes<HTMLDivElement>) {
   return (
     <div
       role="alert"

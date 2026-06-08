@@ -415,7 +415,9 @@
     "summary": {
       "label": "VAT納付額",
       "metaInclusive": "価格はVAT込み",
-      "metaExclusive": "価格はVAT別"
+      "metaExclusive": "価格はVAT別",
+      "metaPmk131": "PMK 131/2024: その他価額DPP 11/12",
+      "metaLuxury": "高級BKP: DPP全額"
     },
     "explanationTitle": "DPP計算式",
     "form": {
@@ -425,8 +427,14 @@
       "basePriceDesc": "下のトグルをオンにすると税込み価格として扱います。",
       "discount": "割引 (-)",
       "otherCosts": "追加コスト (+)",
+      "transactionType": "取引種別",
+      "transactionTypeDesc": "2025年は非高級BKP/JKPにDPP Nilai Lain 11/12を使い、高級BKPはDPP全額を使います。",
+      "transactionTypeOptions": {
+        "standard": "非高級BKP/JKP (DPP 11/12)",
+        "luxury": "PPnBM対象の高級BKP (DPP全額)"
+      },
       "customRate": "特別税率 (任意)",
-      "customRateDesc": "パーセンテージ入力。",
+      "customRateDesc": "パーセンテージ入力。入力するとPMK 131/2024のプリセットは使われません。",
       "toggleTitle": "価格はVAT込みですか？",
       "toggleHint": "オンにすると金額をDPPとVATに分解します。",
       "toggleTrue": "はい、込み",
@@ -434,28 +442,38 @@
     },
     "explanation": [
       "未税価格: DPP = 価格 - 割引 + コスト。",
-      "税込価格: DPP = 価格 / (1 + 税率)。",
-      "VAT = DPP × 税率、請求額 = DPP + VAT。"
+      "2025年以降、非高級BKP/JKPは取引価額の11/12をDPP Nilai Lainとして使用し、実効税率は11%です。",
+      "PPnBM対象の高級BKPはDPP全額に12%のPPN税率を適用します。",
+      "税込価格の場合、適用される実効税率で取引価額を逆算します。"
     ],
     "info": {
       "title": "ベストプラクティス",
       "items": [
         "割引をDPPから除くことを確認。",
-        "PMK優遇がある場合のみ特別税率を使用。",
+        "高級BKPオプションは、PPnBM対象の高級品に分類される場合のみ使用してください。",
+        "別のDPP nilai lainまたは一定額ルールに従う取引では特別税率を使用してください。",
         "監査に備えて請求書番号を保管。"
       ]
     },
     "breakdown": {
       "baseSection": "課税ベース",
+      "transactionValue": "取引価額",
       "dpp": "DPP",
+      "dppNilaiLain": "DPP Nilai Lain",
       "taxSection": "VAT計算",
       "rate": "VAT税率",
+      "effectiveRate": "実効税率",
       "tax": "VAT納付額",
       "total": "請求総額"
     },
     "notes": {
+      "transactionInclusive": "税込価格から逆算したVAT前の取引価額",
+      "transactionExclusive": "VAT前の販売価格/対価/輸入価額",
+      "dppNilaiLain": "PMK 131/2024: 11/12 x 取引価額",
       "dppInclusive": "税込み価格",
-      "dppExclusive": "税抜き価格"
+      "dppExclusive": "税抜き価格",
+      "statutoryRate": "DPP Nilai Lainに適用する税率",
+      "effectiveRate": "12% x 11/12"
     }
   },
   "ppnbmCalc": {

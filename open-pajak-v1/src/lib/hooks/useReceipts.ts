@@ -1,15 +1,17 @@
 import { useCallback, useMemo, useState } from 'react'
 import {
-  type ReceiptBatch,
-  type ReceiptBatchDraft,
-  type ReceiptDraft,
-  type TaxReceipt,
   addBatch,
   addReceipt,
   getStoredBatches,
   getStoredReceipts,
   persistBatches,
   removeReceipt,
+} from '../storage/receipts'
+import type {
+  ReceiptBatch,
+  ReceiptBatchDraft,
+  ReceiptDraft,
+  TaxReceipt,
 } from '../storage/receipts'
 
 export function useReceipts() {
@@ -52,12 +54,16 @@ export function useReceipts() {
   }, [])
 
   const groupedReceipts = useMemo(() => {
-    return receipts.reduce<Record<string, Array<TaxReceipt>>>((acc, entry) => {
-      const key = entry.groupId ?? 'ungrouped'
-      if (!acc[key]) acc[key] = []
-      acc[key].push(entry)
-      return acc
-    }, {})
+    return receipts.reduce<Record<string, Array<TaxReceipt> | undefined>>(
+      (acc, entry) => {
+        const key = entry.groupId ?? 'ungrouped'
+        const group = acc[key] ?? []
+        group.push(entry)
+        acc[key] = group
+        return acc
+      },
+      {},
+    )
   }, [receipts])
 
   return {

@@ -11,7 +11,7 @@ const renderRowValue = (
   value: number | string | undefined,
   valueType: TaxReceipt['breakdown'][number]['valueType'],
 ): string => {
-  if (value === undefined || value === null) return ''
+  if (value === undefined) return ''
   if (typeof value === 'string') return value
   if (valueType === 'text') return String(value)
   if (valueType === 'percent') {
@@ -30,12 +30,23 @@ const escapeXml = (value: string) =>
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&#39;')
 
+const escapeHtml = (value: string) =>
+  value
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;')
+
 const buildWorksheet = ({ name, rows }: Worksheet) => {
   const safeName = escapeXml(name || 'Sheet1')
   const tableRows = rows
     .map((cells) => {
       const columns = cells
-        .map((cell) => `<Cell><Data ss:Type="String">${escapeXml(cell ?? '')}</Data></Cell>`)
+        .map(
+          (cell) =>
+            `<Cell><Data ss:Type="String">${escapeXml(cell)}</Data></Cell>`,
+        )
         .join('')
       return `<Row>${columns}</Row>`
     })
@@ -62,7 +73,10 @@ const sanitizeFilename = (value: string) =>
     .replace(/-+/g, '-')
     .slice(0, 80) || 'open-pajak'
 
-export const downloadWorkbook = (filename: string, worksheets: Array<Worksheet>) => {
+export const downloadWorkbook = (
+  filename: string,
+  worksheets: Array<Worksheet>,
+) => {
   if (typeof window === 'undefined') return
   const xml = buildWorkbook(worksheets)
   const blob = new Blob([xml], { type: 'application/vnd.ms-excel' })
@@ -114,31 +128,41 @@ export const openPrintableReceipt = (receipt: TaxReceipt) => {
     i18n.t(key, { defaultValue: fallback })
   const visitSiteLabel = t('receipts.print.visitSite', 'Visit Site')
   const githubLabel = t('receipts.print.github', 'GitHub')
-  const dateFormatter = new Intl.DateTimeFormat(receipt.locale ?? 'id', {
+  const dateFormatter = new Intl.DateTimeFormat(receipt.locale, {
     dateStyle: 'medium',
     timeStyle: 'short',
   })
-  const createdAt = receipt.createdAt ? dateFormatter.format(new Date(receipt.createdAt)) : ''
+  const createdAt = receipt.createdAt
+    ? dateFormatter.format(new Date(receipt.createdAt))
+    : ''
 
-  const summaryRows = [
+  const summaryRows: Array<{ label: string; value: number }> = [
     { label: t('receipts.summary.totalTax'), value: receipt.summary.totalTax },
-    receipt.summary.terPerPeriod !== undefined && {
+  ]
+  if (receipt.summary.terPerPeriod !== undefined) {
+    summaryRows.push({
       label: t('receipts.summary.terMonthly'),
       value: receipt.summary.terPerPeriod,
-    },
-    receipt.summary.decemberAdjustment !== undefined && {
+    })
+  }
+  if (receipt.summary.decemberAdjustment !== undefined) {
+    summaryRows.push({
       label: t('receipts.summary.decAdjustment'),
       value: receipt.summary.decemberAdjustment,
-    },
-    receipt.summary.takeHomeAnnual !== undefined && {
+    })
+  }
+  if (receipt.summary.takeHomeAnnual !== undefined) {
+    summaryRows.push({
       label: t('receipts.summary.thpAnnual'),
       value: receipt.summary.takeHomeAnnual,
-    },
-    receipt.summary.takeHomePerPeriod !== undefined && {
+    })
+  }
+  if (receipt.summary.takeHomePerPeriod !== undefined) {
+    summaryRows.push({
       label: t('receipts.summary.thpPeriod'),
       value: receipt.summary.takeHomePerPeriod,
-    },
-  ].filter(Boolean) as Array<{ label: string; value: number }>
+    })
+  }
 
   const styles = `
     @page { margin: 0; }
@@ -174,7 +198,7 @@ export const openPrintableReceipt = (receipt: TaxReceipt) => {
     <!DOCTYPE html>
     <html>
       <head>
-        <title>${receipt.title}</title>
+        <title>${escapeHtml(receipt.title)}</title>
         <style>${styles}</style>
       </head>
       <body>
@@ -200,27 +224,27 @@ export const openPrintableReceipt = (receipt: TaxReceipt) => {
         </div>
         <div class="page">
           <div class="content">
-          <h1>${t('receipts.print.title')}</h1>
-          <h2>${receipt.title}</h2>
+          <h1>${escapeHtml(t('receipts.print.title'))}</h1>
+          <h2>${escapeHtml(receipt.title)}</h2>
           <div class="meta">
             ${
               receipt.id
-                ? `<div>${t('receipts.print.meta')}: <strong>${receipt.id}</strong></div>`
+                ? `<div>${escapeHtml(t('receipts.print.meta'))}: <strong>${escapeHtml(receipt.id)}</strong></div>`
                 : ''
             }
             ${
               receipt.identifier
-                ? `<div>${t('receipts.print.identifier')}: <strong>${receipt.identifier}</strong></div>`
+                ? `<div>${escapeHtml(t('receipts.print.identifier'))}: <strong>${escapeHtml(receipt.identifier)}</strong></div>`
                 : ''
             }
             ${
               receipt.groupName
-                ? `<div>${t('receipts.print.group')}: <strong>${receipt.groupName}</strong></div>`
+                ? `<div>${escapeHtml(t('receipts.print.group'))}: <strong>${escapeHtml(receipt.groupName)}</strong></div>`
                 : ''
             }
             ${
               createdAt
-                ? `<div>${t('receipts.modal.created')}: <strong>${createdAt}</strong></div>`
+                ? `<div>${escapeHtml(t('receipts.modal.created'))}: <strong>${escapeHtml(createdAt)}</strong></div>`
                 : ''
             }
           </div>
@@ -229,8 +253,8 @@ export const openPrintableReceipt = (receipt: TaxReceipt) => {
               .map(
                 (row) => `
                   <div>
-                    <span>${row.label}</span>
-                    <strong>${formatCurrency(row.value)}</strong>
+                    <span>${escapeHtml(row.label)}</span>
+                    <strong>${escapeHtml(formatCurrency(row.value))}</strong>
                   </div>
                 `,
               )
@@ -239,9 +263,9 @@ export const openPrintableReceipt = (receipt: TaxReceipt) => {
           <table>
             <thead>
               <tr>
-                <th>${t('table.component')}</th>
-                <th>${t('table.value')}</th>
-                <th>${t('table.note')}</th>
+                <th>${escapeHtml(t('table.component'))}</th>
+                <th>${escapeHtml(t('table.value'))}</th>
+                <th>${escapeHtml(t('table.note'))}</th>
               </tr>
             </thead>
             <tbody>
@@ -249,9 +273,9 @@ export const openPrintableReceipt = (receipt: TaxReceipt) => {
                 .map(
                   (row) => `
                     <tr>
-                      <td>${row.label}</td>
-                      <td>${renderRowValue(row.value, row.valueType)}</td>
-                      <td>${row.note ?? ''}</td>
+                      <td>${escapeHtml(row.label)}</td>
+                      <td>${escapeHtml(renderRowValue(row.value, row.valueType))}</td>
+                      <td>${escapeHtml(row.note ?? '')}</td>
                     </tr>
                   `,
                 )
@@ -328,7 +352,10 @@ const extractRow = (row: Element) => {
     const indexAttr =
       cell.getAttribute('ss:Index') ??
       cell.getAttribute('Index') ??
-      cell.getAttributeNS('urn:schemas-microsoft-com:office:spreadsheet', 'Index')
+      cell.getAttributeNS(
+        'urn:schemas-microsoft-com:office:spreadsheet',
+        'Index',
+      )
     if (indexAttr) {
       const nextIndex = Number(indexAttr) - 1
       while (currentIndex < nextIndex) {
@@ -337,9 +364,9 @@ const extractRow = (row: Element) => {
       }
     }
     const data =
-      cell.getElementsByTagName('Data')[0] ??
-      cell.getElementsByTagNameNS('*', 'Data')[0]
-    values.push(data?.textContent ?? '')
+      cell.getElementsByTagName('Data').item(0) ??
+      cell.getElementsByTagNameNS('*', 'Data').item(0)
+    values.push(data ? data.textContent : '')
     currentIndex += 1
   })
 

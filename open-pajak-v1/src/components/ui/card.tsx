@@ -1,10 +1,7 @@
 import { cn } from '../../lib/cn'
 import type { HTMLAttributes } from 'react'
 
-export function Card({
-  className,
-  ...props
-}: HTMLAttributes<HTMLDivElement>) {
+export function Card({ className, ...props }: HTMLAttributes<HTMLDivElement>) {
   return (
     <div
       className={cn(
@@ -20,9 +17,7 @@ export function CardHeader({
   className,
   ...props
 }: HTMLAttributes<HTMLDivElement>) {
-  return (
-    <div className={cn('p-6 pb-0', className)} {...props} />
-  )
+  return <div className={cn('p-6 pb-0', className)} {...props} />
 }
 
 export function CardTitle({

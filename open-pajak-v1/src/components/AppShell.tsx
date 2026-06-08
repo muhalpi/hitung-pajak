@@ -31,11 +31,16 @@ export function AppShell({ children }: { children: ReactNode }) {
     setLangDropdownOpen(false)
   }
 
-  const currentLocale = availableLocales.find((locale) => locale.code === i18n.language) || availableLocales[0]
+  const currentLocale =
+    availableLocales.find((locale) => locale.code === i18n.language) ||
+    availableLocales[0]
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (langDropdownRef.current && !langDropdownRef.current.contains(event.target as Node)) {
+      if (
+        langDropdownRef.current &&
+        !langDropdownRef.current.contains(event.target as Node)
+      ) {
         setLangDropdownOpen(false)
       }
     }
@@ -147,7 +152,9 @@ export function AppShell({ children }: { children: ReactNode }) {
                             <span>{locale.emoji}</span>
                             <span>{locale.label}</span>
                           </span>
-                          {isSelected && <Check className="size-4 text-[#f9c74f]" />}
+                          {isSelected && (
+                            <Check className="size-4 text-[#f9c74f]" />
+                          )}
                         </button>
                       )
                     })}
@@ -195,7 +202,9 @@ export function AppShell({ children }: { children: ReactNode }) {
             <p className="text-lg font-semibold text-[#0f1e3d]">
               {t('app.menu.title')}
             </p>
-            <p className="text-xs text-[#0f1e3d]/70">{t('app.menu.subtitle')}</p>
+            <p className="text-xs text-[#0f1e3d]/70">
+              {t('app.menu.subtitle')}
+            </p>
           </div>
           <Button
             variant="outline"
@@ -223,7 +232,12 @@ export function AppShell({ children }: { children: ReactNode }) {
             </select>
           </div>
           <Button asChild className="w-full" variant="outline">
-            <a href={GITHUB_URL} target="_blank" rel="noreferrer" className="flex items-center justify-center gap-2">
+            <a
+              href={GITHUB_URL}
+              target="_blank"
+              rel="noreferrer"
+              className="flex items-center justify-center gap-2"
+            >
               <Github className="size-4" />
               {t('app.buttons.github')}
             </a>

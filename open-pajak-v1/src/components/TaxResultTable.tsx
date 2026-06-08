@@ -1,6 +1,6 @@
+import { useTranslation } from 'react-i18next'
 import { formatCurrency, formatPercent } from '../lib/format'
 import { cn } from '../lib/cn'
-import { useTranslation } from 'react-i18next'
 import {
   Table,
   TableBody,

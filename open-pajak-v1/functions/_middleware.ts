@@ -10,7 +10,7 @@ export async function onRequest(context: {
   const response = await next()
 
   const hasExtension = /\.[^/]+$/.test(pathname)
-  
+
   if (hasExtension || response.ok) {
     return response
   }
@@ -39,4 +39,3 @@ export async function onRequest(context: {
 
   return response
 }
-

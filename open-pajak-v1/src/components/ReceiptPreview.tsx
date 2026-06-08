@@ -1,9 +1,9 @@
-import type { TFunction } from 'i18next'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
+import { formatCurrency, formatPercent } from '../lib/format'
+import type { TFunction } from 'i18next'
 import type { TaxReceiptSummary } from '../lib/storage/receipts'
 import type { TaxBreakdownRow } from '../lib/tax/types'
-import { formatCurrency, formatPercent } from '../lib/format'
 
 type SnapshotValue = string | number | boolean
 
@@ -47,7 +47,8 @@ export function ReceiptPreview({
     }
   }, [createdAt, locale])
 
-  const formattedDate = createdAt && formatter ? formatter.format(new Date(createdAt)) : null
+  const formattedDate =
+    createdAt && formatter ? formatter.format(new Date(createdAt)) : null
 
   const summaryRows = [
     { label: t('receipts.summary.totalTax'), value: summary.totalTax },

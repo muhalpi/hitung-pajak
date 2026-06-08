@@ -1,10 +1,10 @@
-import type { ReactNode } from 'react'
 import { useEffect, useState } from 'react'
 import { ArrowUp, X } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { Button } from './ui/button'
 import { Input } from './ui/input'
 import { ReceiptPreview } from './ReceiptPreview'
+import type { ReactNode } from 'react'
 import type { ReceiptPreviewData } from './ReceiptPreview'
 
 interface ReceiptModalProps {
@@ -65,7 +65,9 @@ export function ReceiptModal({
               <p className="text-xs font-semibold uppercase tracking-[0.4em] text-[#f5a524]">
                 {t('receipts.modal.title')}
               </p>
-              <h3 className="text-2xl font-semibold text-[#0f1e3d]">{data.title}</h3>
+              <h3 className="text-2xl font-semibold text-[#0f1e3d]">
+                {data.title}
+              </h3>
               {data.sourceLabel && (
                 <p className="text-xs text-[#0f1e3d]/70">{data.sourceLabel}</p>
               )}
@@ -86,7 +88,10 @@ export function ReceiptModal({
                 label={t('receipts.modal.name')}
                 value={
                   editable ? (
-                    <Input value={title} onChange={(event) => setTitle(event.target.value)} />
+                    <Input
+                      value={title}
+                      onChange={(event) => setTitle(event.target.value)}
+                    />
                   ) : (
                     data.title
                   )
@@ -101,7 +106,7 @@ export function ReceiptModal({
                       onChange={(event) => setIdentifier(event.target.value)}
                     />
                   ) : (
-                    data.identifier ?? '—'
+                    (data.identifier ?? '—')
                   )
                 }
               />
@@ -115,7 +120,7 @@ export function ReceiptModal({
                       onChange={(event) => setGroupName(event.target.value)}
                     />
                   ) : (
-                    data.groupName ?? '—'
+                    (data.groupName ?? '—')
                   )
                 }
               />
@@ -132,7 +137,11 @@ export function ReceiptModal({
                   </Button>
                 )}
                 {onDownloadExcel && (
-                  <Button variant="outline" className="w-full" onClick={onDownloadExcel}>
+                  <Button
+                    variant="outline"
+                    className="w-full"
+                    onClick={onDownloadExcel}
+                  >
                     {t('receipts.actions.downloadExcel')}
                   </Button>
                 )}
@@ -154,20 +163,18 @@ export function ReceiptModal({
           </div>
         </div>
       </div>
-      {open && (
-        <Button
-          className="fixed bottom-6 right-6 z-60 shadow-lg shadow-black/15"
-          variant="accent"
-          size="icon"
-          onClick={() => {
-            const scrollTarget = document.querySelector('.receipt-modal-top')
-            scrollTarget?.scrollIntoView({ behavior: 'smooth' })
-          }}
-          aria-label={t('receipts.actions.scrollTop')}
-        >
-          <ArrowUp />
-        </Button>
-      )}
+      <Button
+        className="fixed bottom-6 right-6 z-60 shadow-lg shadow-black/15"
+        variant="accent"
+        size="icon"
+        onClick={() => {
+          const scrollTarget = document.querySelector('.receipt-modal-top')
+          scrollTarget?.scrollIntoView({ behavior: 'smooth' })
+        }}
+        aria-label={t('receipts.actions.scrollTop')}
+      >
+        <ArrowUp />
+      </Button>
     </>
   )
 }

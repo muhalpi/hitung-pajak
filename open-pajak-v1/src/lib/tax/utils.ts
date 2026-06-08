@@ -50,10 +50,7 @@ export function hitungPajakPasal17(pkp: number) {
   return tax
 }
 
-export function getTerBulananRate(
-  kategori: string,
-  brutoBulanan: number,
-) {
+export function getTerBulananRate(kategori: string, brutoBulanan: number) {
   const table = TER_BULANAN_TABLE[kategori] ?? TER_BULANAN_TABLE.A
   const fallbackRate = table.at(-1)?.rateBps ?? 0
   const found = table.find((row) => brutoBulanan <= row.ceiling)

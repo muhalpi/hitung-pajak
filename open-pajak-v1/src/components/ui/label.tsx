@@ -2,8 +2,7 @@ import { forwardRef } from 'react'
 import { cn } from '../../lib/cn'
 import type { LabelHTMLAttributes } from 'react'
 
-export interface LabelProps
-  extends LabelHTMLAttributes<HTMLLabelElement> {}
+export interface LabelProps extends LabelHTMLAttributes<HTMLLabelElement> {}
 
 export const Label = forwardRef<HTMLLabelElement, LabelProps>(
   ({ className, ...props }, ref) => (

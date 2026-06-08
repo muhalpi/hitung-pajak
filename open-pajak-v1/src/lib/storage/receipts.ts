@@ -1,5 +1,5 @@
-import type { TaxBreakdownRow } from '../tax/types'
 import i18n from '../../i18n/config'
+import type { TaxBreakdownRow } from '../tax/types'
 
 export type ReceiptSource = 'manual' | 'bulk'
 
@@ -66,15 +66,17 @@ const writeStorage = <T>(key: string, value: T) => {
 }
 
 const generateId = () => {
-  if (hasWindow && typeof window.crypto?.randomUUID === 'function') {
+  if (hasWindow && 'randomUUID' in window.crypto) {
     return window.crypto.randomUUID()
   }
   return `rcpt_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`
 }
 
-export const getStoredReceipts = () => readStorage<Array<TaxReceipt>>(RECEIPTS_KEY, [])
+export const getStoredReceipts = () =>
+  readStorage<Array<TaxReceipt>>(RECEIPTS_KEY, [])
 
-export const getStoredBatches = () => readStorage<Array<ReceiptBatch>>(BATCHES_KEY, [])
+export const getStoredBatches = () =>
+  readStorage<Array<ReceiptBatch>>(BATCHES_KEY, [])
 
 export const persistReceipts = (receipts: Array<TaxReceipt>) => {
   writeStorage(RECEIPTS_KEY, receipts)
@@ -98,7 +100,7 @@ export const addReceipt = (
     ...draft,
     id: draft.id ?? generateId(),
     createdAt: draft.createdAt ?? new Date().toISOString(),
-    locale: draft.locale ?? i18n.language ?? 'id',
+    locale: draft.locale ?? i18n.language,
   }
   const all = [...current.filter((entry) => entry.id !== record.id), record]
   persistReceipts(all)

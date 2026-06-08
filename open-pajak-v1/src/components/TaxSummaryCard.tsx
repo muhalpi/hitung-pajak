@@ -1,6 +1,6 @@
+import { useTranslation } from 'react-i18next'
 import { formatCurrency } from '../lib/format'
 import { Card, CardTitle } from './ui/card'
-import { useTranslation } from 'react-i18next'
 
 interface TaxSummaryCardProps {
   total: number
@@ -36,7 +36,10 @@ export function TaxSummaryCard({
           <div className="space-y-2 text-sm text-[#0f1e3d]">
             <SummaryMetric label={t('summary.totalTax')} value={total} />
             {typeof terPerPeriod === 'number' && (
-              <SummaryMetric label={t('summary.terMonthly')} value={terPerPeriod} />
+              <SummaryMetric
+                label={t('summary.terMonthly')}
+                value={terPerPeriod}
+              />
             )}
             {typeof decemberAdjustment === 'number' && (
               <SummaryMetric
@@ -57,10 +60,16 @@ export function TaxSummaryCard({
             </CardTitle>
             <div className="space-y-2 text-sm text-[#0f1e3d]">
               {typeof takeHomeAnnual === 'number' && (
-                <SummaryMetric label={t('summary.thpAnnual')} value={takeHomeAnnual} />
+                <SummaryMetric
+                  label={t('summary.thpAnnual')}
+                  value={takeHomeAnnual}
+                />
               )}
               {typeof takeHomePerPeriod === 'number' && (
-                <SummaryMetric label={t('summary.thpPeriod')} value={takeHomePerPeriod} />
+                <SummaryMetric
+                  label={t('summary.thpPeriod')}
+                  value={takeHomePerPeriod}
+                />
               )}
             </div>
           </div>

@@ -13,30 +13,34 @@ import { Input } from '../components/ui/input'
 import { FormField } from '../components/FormField'
 import { calculatePpn } from '../lib/tax/ppn'
 import { Button } from '../components/ui/button'
+import type { PpnTransactionType } from '../lib/tax/ppn'
 
 type PpnFormState = {
   taxYear: string
   basePrice: number | null
   discount: number | null
   otherCosts: number | null
+  transactionType: PpnTransactionType
   customRate: number
   includePpn: boolean
 }
 
 const sampleForm = (): PpnFormState => ({
-  taxYear: '2024',
-  basePrice: 110000000,
+  taxYear: '2025',
+  basePrice: 100000000,
   discount: 0,
   otherCosts: 0,
+  transactionType: 'standard',
   customRate: 0,
   includePpn: false,
 })
 
 const emptyForm = (): PpnFormState => ({
-  taxYear: '2024',
+  taxYear: '2025',
   basePrice: null,
   discount: null,
   otherCosts: null,
+  transactionType: 'standard',
   customRate: 0,
   includePpn: false,
 })
@@ -58,6 +62,20 @@ function PpnPage() {
     }),
     [form],
   )
+  const isPmk131Preset =
+    normalizedForm.taxYear === '2025' && normalizedForm.customRate <= 0
+  const summaryMeta = [
+    form.includePpn
+      ? t('ppnCalc.summary.metaInclusive')
+      : t('ppnCalc.summary.metaExclusive'),
+    isPmk131Preset
+      ? form.transactionType === 'luxury'
+        ? t('ppnCalc.summary.metaLuxury')
+        : t('ppnCalc.summary.metaPmk131')
+      : undefined,
+  ]
+    .filter(Boolean)
+    .join(' | ')
 
   const result = useMemo(
     () => calculatePpn(normalizedForm),
@@ -105,6 +123,32 @@ function PpnPage() {
               </Select>
             </FormField>
             <FormField
+              label={t('ppnCalc.form.transactionType')}
+              htmlFor="transactionType"
+              description={t('ppnCalc.form.transactionTypeDesc')}
+            >
+              <Select
+                id="transactionType"
+                value={form.transactionType}
+                onChange={(event) =>
+                  setForm((prev) => ({
+                    ...prev,
+                    transactionType: event.target.value as PpnTransactionType,
+                  }))
+                }
+              >
+                <option value="standard">
+                  {t('ppnCalc.form.transactionTypeOptions.standard')}
+                </option>
+                <option value="luxury">
+                  {t('ppnCalc.form.transactionTypeOptions.luxury')}
+                </option>
+              </Select>
+            </FormField>
+          </div>
+
+          <div className="grid gap-4 md:grid-cols-2">
+            <FormField
               label={t('ppnCalc.form.basePrice')}
               htmlFor="basePrice"
               description={t('ppnCalc.form.basePriceDesc')}
@@ -129,7 +173,10 @@ function PpnPage() {
                 }
               />
             </FormField>
-            <FormField label={t('ppnCalc.form.otherCosts')} htmlFor="otherCosts">
+            <FormField
+              label={t('ppnCalc.form.otherCosts')}
+              htmlFor="otherCosts"
+            >
               <NumberInput
                 id="otherCosts"
                 value={form.otherCosts}
@@ -152,9 +199,7 @@ function PpnPage() {
                 min={0}
                 max={100}
                 value={form.customRate}
-                onChange={(event) =>
-                  handleCustomRateChange(event.target.value)
-                }
+                onChange={(event) => handleCustomRateChange(event.target.value)}
               />
             </FormField>
           </div>
@@ -177,7 +222,9 @@ function PpnPage() {
                 }))
               }
             >
-              {form.includePpn ? t('ppnCalc.form.toggleTrue') : t('ppnCalc.form.toggleFalse')}
+              {form.includePpn
+                ? t('ppnCalc.form.toggleTrue')
+                : t('ppnCalc.form.toggleFalse')}
             </Button>
           </div>
         </TaxFormSection>
@@ -186,24 +233,24 @@ function PpnPage() {
         <TaxSummaryCard
           total={result.totalTax}
           label={t('ppnCalc.summary.label')}
-          meta={
-            form.includePpn
-              ? t('ppnCalc.summary.metaInclusive')
-              : t('ppnCalc.summary.metaExclusive')
-          }
+          meta={summaryMeta}
         />
       }
       result={<TaxResultTable breakdown={result.breakdown} />}
       explanation={
         <FormulaExplanationCard
           title={t('ppnCalc.explanationTitle')}
-          steps={t('ppnCalc.explanation', { returnObjects: true }) as string[]}
+          steps={
+            t('ppnCalc.explanation', { returnObjects: true }) as Array<string>
+          }
         />
       }
       info={
         <InfoAlert
           title={t('ppnCalc.info.title')}
-          items={t('ppnCalc.info.items', { returnObjects: true }) as string[]}
+          items={
+            t('ppnCalc.info.items', { returnObjects: true }) as Array<string>
+          }
         />
       }
     />

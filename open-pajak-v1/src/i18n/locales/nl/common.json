@@ -415,7 +415,9 @@
     "summary": {
       "label": "Verschuldigde BTW",
       "metaInclusive": "Prijs is inclusief BTW",
-      "metaExclusive": "Prijs is exclusief BTW"
+      "metaExclusive": "Prijs is exclusief BTW",
+      "metaPmk131": "PMK 131/2024: DPP andere waarde 11/12",
+      "metaLuxury": "Luxe BKP: volledige DPP"
     },
     "explanationTitle": "BTW-formule",
     "form": {
@@ -425,8 +427,14 @@
       "basePriceDesc": "Voer BTW-inclusieve prijs in als de schakelaar hieronder aan staat.",
       "discount": "Korting (-)",
       "otherCosts": "Andere kosten (+)",
+      "transactionType": "Transactietype",
+      "transactionTypeDesc": "Voor 2025 gebruiken niet-luxe BKP/JKP DPP nilai lain 11/12; luxe BKP gebruikt volledige DPP.",
+      "transactionTypeOptions": {
+        "standard": "Niet-luxe BKP/JKP (DPP 11/12)",
+        "luxury": "Luxe BKP onder PPnBM (volledige DPP)"
+      },
       "customRate": "Aangepast tarief (optioneel)",
-      "customRateDesc": "In procenten.",
+      "customRateDesc": "In procenten. Als dit is ingevuld, wordt de PMK 131/2024-preset niet gebruikt.",
       "toggleTitle": "Is de prijs inclusief BTW?",
       "toggleHint": "Schakel om het bedrag te splitsen in DPP + BTW.",
       "toggleTrue": "Ja, inclusief",
@@ -434,28 +442,38 @@
     },
     "explanation": [
       "Als prijs exclusief BTW: DPP = prijs − korting + andere kosten.",
-      "Als prijs inclusief BTW: DPP = prijs / (1 + tarief).",
-      "BTW = DPP × tarief; totaal factuur = DPP + BTW."
+      "Vanaf 2025 gebruiken niet-luxe BKP/JKP DPP nilai lain van 11/12 van de transactiewaarde, waardoor het effectieve tarief 11% is.",
+      "Luxe BKP onder PPnBM gebruikt het PPN-tarief van 12% over de volledige DPP.",
+      "Als de prijs inclusief BTW is, wordt de transactiewaarde teruggerekend met het toepasselijke effectieve tarief."
     ],
     "info": {
       "title": "Goede gewoonten",
       "items": [
         "Zorg dat kortingen van de DPP worden afgetrokken.",
-        "Gebruik aangepaste tarieven alleen bij PMK-incentives.",
+        "Gebruik de luxe-BKP-optie alleen voor goederen die als luxe zijn geclassificeerd en onder PPnBM vallen.",
+        "Gebruik aangepaste tarieven wanneer een transactie andere DPP nilai lain- of vaste-bedragregels volgt.",
         "Bewaar factuurnummers voor audittrail."
       ]
     },
     "breakdown": {
       "baseSection": "Belastinggrondslag",
+      "transactionValue": "Transactiewaarde",
       "dpp": "DPP",
+      "dppNilaiLain": "DPP nilai lain",
       "taxSection": "BTW-berekening",
       "rate": "BTW-tarief",
+      "effectiveRate": "Effectief tarief",
       "tax": "Verschuldigde BTW",
       "total": "Totaal factuur"
     },
     "notes": {
+      "transactionInclusive": "transactiewaarde voor BTW uit een BTW-inclusieve prijs",
+      "transactionExclusive": "verkoopprijs/vergoeding/invoerwaarde voor BTW",
+      "dppNilaiLain": "PMK 131/2024: 11/12 x transactiewaarde",
       "dppInclusive": "prijs is inclusief BTW",
-      "dppExclusive": "prijs vóór BTW"
+      "dppExclusive": "prijs vóór BTW",
+      "statutoryRate": "tarief toegepast op DPP nilai lain",
+      "effectiveRate": "12% x 11/12"
     }
   },
   "ppnbmCalc": {

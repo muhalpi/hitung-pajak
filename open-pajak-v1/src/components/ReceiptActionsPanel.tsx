@@ -1,9 +1,9 @@
-import { Archive, Upload, Download } from 'lucide-react'
+import { Archive, Download, Upload } from 'lucide-react'
 import { useRef } from 'react'
-import type { ChangeEvent } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Button } from './ui/button'
 import { Card } from './ui/card'
+import type { ChangeEvent } from 'react'
 
 interface ReceiptActionsPanelProps {
   onPreview: () => void
@@ -37,7 +37,9 @@ export function ReceiptActionsPanel({
         <p className="text-xs font-semibold uppercase tracking-[0.4em] text-[#f5a524]">
           {t('receipts.panel.title')}
         </p>
-        <p className="text-sm text-[#0f1e3d]/70">{t('receipts.panel.subtitle')}</p>
+        <p className="text-sm text-[#0f1e3d]/70">
+          {t('receipts.panel.subtitle')}
+        </p>
       </div>
       <div className="flex flex-wrap gap-3">
         <Button onClick={onPreview} disabled={disabled}>
