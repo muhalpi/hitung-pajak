@@ -1,11 +1,11 @@
 {
   "app": {
-    "brand": "Open Pajak",
-    "brandMain": "Open",
+    "brand": "Hitung Pajak",
+    "brandMain": "Hitung",
     "brandAccent": "Pajak",
-    "tagline": "Open Source Tax Toolkit",
-    "taglineLine1": "Open Source",
-    "taglineLine2": "Tax Toolkit",
+    "tagline": "Kalkulator Pajak Indonesia",
+    "taglineLine1": "Kalkulator Pajak",
+    "taglineLine2": "Indonesia",
     "nav": {
       "home": "Beranda",
       "pph21": "PPh 21/26",
@@ -31,7 +31,7 @@
   },
   "home": {
     "hero": {
-      "eyebrow": "Open Pajak",
+      "eyebrow": "Hitung Pajak",
       "title": "Kalkulator pajak Indonesia serba ada.",
       "body": "Semua perhitungan berjalan sepenuhnya di browser Anda. Tidak ada data pribadi, tidak ada backend. Cocok untuk simulasi cepat maupun review kewajiban pajak sebelum lapor.",
       "ctaPrimary": "Mulai hitung",

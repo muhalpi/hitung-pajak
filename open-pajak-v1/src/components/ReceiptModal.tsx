@@ -59,17 +59,17 @@ export function ReceiptModal({
   return (
     <>
       <div className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/50 px-4 py-8 backdrop-blur-sm">
-        <div className="receipt-modal-top relative w-full max-w-5xl rounded-3xl bg-white p-6 shadow-2xl">
-          <div className="flex items-start justify-between gap-4 border-b border-[#0f1e3d]/10 pb-4">
+        <div className="receipt-modal-top relative w-full max-w-5xl rounded-[28px] bg-white p-6">
+          <div className="flex items-start justify-between gap-4 border-b border-[#d2d2d7]/70 pb-4">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.4em] text-[#f5a524]">
+              <p className="text-sm text-[#0066cc]">
                 {t('receipts.modal.title')}
               </p>
-              <h3 className="text-2xl font-semibold text-[#0f1e3d]">
+              <h3 className="text-2xl font-semibold text-[#1d1d1f]">
                 {data.title}
               </h3>
               {data.sourceLabel && (
-                <p className="text-xs text-[#0f1e3d]/70">{data.sourceLabel}</p>
+                <p className="text-xs text-[#6e6e73]">{data.sourceLabel}</p>
               )}
             </div>
             <Button
@@ -83,7 +83,7 @@ export function ReceiptModal({
           </div>
 
           <div className="mt-4 grid gap-4 md:grid-cols-[260px_minmax(0,1fr)]">
-            <div className="space-y-4 rounded-2xl border border-dashed border-[#f0f0f0] bg-[#fcfcff] p-4">
+            <div className="space-y-4 rounded-[18px] border border-[#d2d2d7]/70 bg-[#f5f5f7] p-4">
               <LabelBlock
                 label={t('receipts.modal.name')}
                 value={
@@ -164,8 +164,7 @@ export function ReceiptModal({
         </div>
       </div>
       <Button
-        className="fixed bottom-6 right-6 z-60 shadow-lg shadow-black/15"
-        variant="accent"
+        className="fixed bottom-6 right-6 z-60"
         size="icon"
         onClick={() => {
           const scrollTarget = document.querySelector('.receipt-modal-top')
@@ -189,12 +188,10 @@ function LabelBlock({
   value: ReactNode
 }) {
   return (
-    <div className="rounded-2xl border border-[#f0f0f0] bg-[#fafbfe] p-3 text-sm text-[#0f1e3d]">
-      <p className="text-[11px] font-semibold uppercase tracking-[0.3em] text-[#8a92a6]">
-        {label}
-      </p>
+    <div className="rounded-[12px] border border-[#d2d2d7]/70 bg-white p-3 text-sm text-[#1d1d1f]">
+      <p className="text-[11px] font-semibold text-[#6e6e73]">{label}</p>
       <div className="mt-1 font-semibold">{value}</div>
-      {hint && <p className="mt-1 text-[11px] text-[#8a92a6]">{hint}</p>}
+      {hint && <p className="mt-1 text-[11px] text-[#6e6e73]">{hint}</p>}
     </div>
   )
 }

@@ -20,10 +20,8 @@ export function FormField({
     <div className="space-y-1.5">
       <Label htmlFor={htmlFor}>{label}</Label>
       {children}
-      {description && (
-        <p className="text-xs text-[#0f1e3d]/60">{description}</p>
-      )}
-      {error && <p className="text-xs text-red-600">{error}</p>}
+      {description && <p className="text-xs text-[#6e6e73]">{description}</p>}
+      {error && <p className="text-xs text-[#d70015]">{error}</p>}
     </div>
   )
 }

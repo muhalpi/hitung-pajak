@@ -1,6 +1,6 @@
-# Open Pajak Workspace
+# Hitung Pajak Workspace
 
-This workspace contains the Bun + Vite application for Open Pajak. It is a client-only React app for Indonesian tax simulations covering PPh 21/26, PPh 22, PPh 23, PPh Final 4(2), PPN, and PPNBM.
+This workspace contains the Bun + Vite application for Hitung Pajak. It is a client-only React app for Indonesian tax simulations covering PPh 21/26, PPh 22, PPh 23, PPh Final 4(2), PPN, and PPNBM.
 
 ## Requirements
 

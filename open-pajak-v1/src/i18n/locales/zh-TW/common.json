@@ -1,11 +1,11 @@
 {
   "app": {
-    "brand": "Open Pajak",
-    "brandMain": "Open",
+    "brand": "Hitung Pajak",
+    "brandMain": "Hitung",
     "brandAccent": "Pajak",
-    "tagline": "開源稅務工具箱",
-    "taglineLine1": "Open Source",
-    "taglineLine2": "Tax Toolkit",
+    "tagline": "印尼稅務計算器",
+    "taglineLine1": "印尼稅務",
+    "taglineLine2": "計算器",
     "nav": {
       "home": "首頁",
       "pph21": "PPh21/26",
@@ -31,7 +31,7 @@
   },
   "home": {
     "hero": {
-      "eyebrow": "Open Pajak",
+      "eyebrow": "Hitung Pajak",
       "title": "一站式印尼稅務計算。",
       "body": "所有計算都在瀏覽器內完成，不上傳任何個人資訊。適合快速模擬或申報前複核。",
       "ctaPrimary": "開始計算",

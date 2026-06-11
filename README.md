@@ -1,6 +1,6 @@
-# Open Pajak
+# Hitung Pajak
 
-Open Pajak is a client-side Indonesian tax calculator. The repository ships a single-page app in `open-pajak-v1/` with calculators for PPh 21/26, PPh 22, PPh 23, PPh Final 4(2), PPN, and PPNBM.
+Hitung Pajak is a client-side Indonesian tax calculator. The repository ships a single-page app in `open-pajak-v1/` with calculators for PPh 21/26, PPh 22, PPh 23, PPh Final 4(2), PPN, and PPNBM.
 
 ## Workspace
 

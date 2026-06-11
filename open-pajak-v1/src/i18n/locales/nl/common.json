@@ -1,11 +1,11 @@
 {
   "app": {
-    "brand": "Open Pajak",
-    "brandMain": "Open",
+    "brand": "Hitung Pajak",
+    "brandMain": "Hitung",
     "brandAccent": "Pajak",
-    "tagline": "Open-source belastingtoolkit",
-    "taglineLine1": "Open source",
-    "taglineLine2": "Belastingtoolkit",
+    "tagline": "Indonesische belastingcalculator",
+    "taglineLine1": "Indonesische",
+    "taglineLine2": "Belastingcalculator",
     "nav": {
       "home": "Home",
       "pph21": "PPh 21/26",
@@ -31,7 +31,7 @@
   },
   "home": {
     "hero": {
-      "eyebrow": "Open Pajak",
+      "eyebrow": "Hitung Pajak",
       "title": "Alles-in-één Indonesische belastingcalculators.",
       "body": "Alles draait volledig in je browser—geen persoonsgegevens, geen backend. Perfect voor snelle simulaties of om verplichtingen te controleren vóór aangifte.",
       "ctaPrimary": "Begin met berekenen",

@@ -5,22 +5,20 @@ import type { ButtonHTMLAttributes } from 'react'
 import type { VariantProps } from 'class-variance-authority'
 
 const buttonVariants = cva(
-  'inline-flex items-center justify-center gap-2 rounded-lg text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none',
+  'inline-flex items-center justify-center gap-2 rounded-full text-[15px] font-normal transition-[background-color,border-color,color,transform] active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0071e3] focus-visible:ring-offset-2 focus-visible:ring-offset-[#f5f5f7] disabled:pointer-events-none disabled:opacity-50',
   {
     variants: {
       variant: {
-        default:
-          'bg-[#0f1e3d] text-white hover:bg-[#142b5c] focus-visible:ring-[#f9c74f]',
+        default: 'bg-[#0066cc] text-white hover:bg-[#0071e3]',
         outline:
-          'border border-[#0f1e3d]/20 bg-white text-[#0f1e3d] hover:bg-[#fff7e0] focus-visible:ring-[#0f1e3d]',
-        ghost: 'text-[#0f1e3d] bg-transparent hover:bg-[#0f1e3d]/10',
-        accent:
-          'bg-[#f9c74f] text-[#0f1e3d] hover:bg-[#f7b824] focus-visible:ring-[#0f1e3d]',
+          'border border-[#0066cc] bg-transparent text-[#0066cc] hover:bg-[#eaf4ff]',
+        ghost: 'bg-transparent text-[#0066cc] hover:bg-[#f5f5f7]',
+        accent: 'bg-[#0066cc] text-white hover:bg-[#0071e3]',
       },
       size: {
         default: 'h-11 px-5',
-        sm: 'h-9 px-3 text-xs',
-        lg: 'h-12 px-6 text-base',
+        sm: 'h-9 px-4 text-[13px]',
+        lg: 'h-12 px-6 text-[17px]',
         icon: 'h-10 w-10',
       },
     },

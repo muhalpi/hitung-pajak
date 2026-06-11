@@ -61,24 +61,24 @@ export function AppShell({ children }: { children: ReactNode }) {
   }, [open])
 
   const renderNav = (variant: 'dark' | 'light') => (
-    <nav className="flex flex-col gap-2 text-sm font-semibold md:flex-row md:items-center md:gap-1">
+    <nav className="flex flex-col gap-1 text-sm md:flex-row md:items-center md:justify-center md:gap-1">
       {NAV_LINKS.map((item) => {
         const active = location.pathname === item.to
         const activeClass =
           variant === 'dark'
-            ? 'bg-[#f9c74f] text-[#0f1e3d] shadow-md shadow-[#f9c74f]/25 font-bold'
-            : 'bg-[#f9c74f]/90 text-[#0f1e3d] shadow-lg shadow-[#f5a524]/40'
+            ? 'bg-white/15 text-white'
+            : 'bg-[#f5f5f7] text-[#1d1d1f]'
         const inactiveClass =
           variant === 'dark'
-            ? 'text-white/80 hover:bg-white/10 hover:text-white'
-            : 'text-[#0f1e3d] hover:bg-[#0f1e3d]/10'
+            ? 'text-white/70 hover:bg-white/10 hover:text-white'
+            : 'text-[#424245] hover:bg-[#f5f5f7] hover:text-[#1d1d1f]'
 
         return (
           <Link
             key={item.to}
             to={item.to}
             className={cn(
-              'rounded-full px-4 py-2 transition-all',
+              'rounded-full px-3 py-2 transition-colors',
               active ? activeClass : inactiveClass,
             )}
             onClick={() => setOpen(false)}
@@ -91,24 +91,20 @@ export function AppShell({ children }: { children: ReactNode }) {
   )
 
   return (
-    <div className="min-h-screen bg-transparent">
-      <header className="sticky top-0 z-30 border-b border-white/10 bg-gradient-to-r from-[#0a1630] to-[#142853] text-white shadow-lg shadow-[#0a1630]/30">
-        <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-4">
+    <div className="min-h-screen bg-[#f5f5f7]">
+      <header className="sticky top-0 z-30 border-b border-white/10 bg-black/90 text-white backdrop-blur-xl">
+        <div className="mx-auto flex h-12 max-w-6xl items-center justify-between gap-4 px-4">
           <Link to="/" className="flex items-center gap-3 text-white">
-            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#121e3c] text-lg font-bold text-white shadow-inner shadow-black/30">
-              <span>O</span>
-              <span className="text-[#f9c74f]">P</span>
+            <div className="flex h-7 w-7 items-center justify-center rounded-full border border-white/20 text-[11px] font-semibold">
+              <span>HP</span>
             </div>
             <div className="leading-tight">
-              <p className="text-lg font-semibold leading-snug">
+              <p className="text-sm font-semibold leading-snug">
                 <span>{t('app.brandMain')}</span>{' '}
-                <span className="text-[#f9c74f]">{t('app.brandAccent')}</span>
+                <span className="text-white/70">{t('app.brandAccent')}</span>
               </p>
-              <p className="text-[11px] font-semibold uppercase tracking-[0.3em] text-white">
+              <p className="hidden text-[11px] text-white/55 sm:block">
                 {t('app.taglineLine1')}
-              </p>
-              <p className="text-[11px] font-semibold uppercase tracking-[0.3em] text-[#f9c74f]">
-                {t('app.taglineLine2')}
               </p>
             </div>
           </Link>
@@ -121,10 +117,10 @@ export function AppShell({ children }: { children: ReactNode }) {
                   type="button"
                   onClick={() => setLangDropdownOpen(!langDropdownOpen)}
                   aria-label="Change language"
-                  className="flex items-center gap-2 rounded-lg border border-white/20 bg-white/5 px-3 py-1.5 text-xs uppercase tracking-wider text-white/90 outline-none backdrop-blur transition-all hover:bg-white/10 hover:text-white"
+                  className="flex h-8 items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 text-xs text-white/85 outline-none transition-colors hover:bg-white/10 hover:text-white"
                 >
                   <span>{currentLocale.emoji}</span>
-                  <span>{currentLocale.label.toUpperCase()}</span>
+                  <span>{currentLocale.label}</span>
                   <ChevronDown
                     className={cn(
                       'size-3.5 transition-transform',
@@ -133,7 +129,7 @@ export function AppShell({ children }: { children: ReactNode }) {
                   />
                 </button>
                 {langDropdownOpen && (
-                  <div className="absolute right-0 top-full z-50 mt-2 min-w-[160px] rounded-lg border border-white/10 bg-[#121e3c] shadow-lg shadow-black/20">
+                  <div className="absolute right-0 top-full z-50 mt-2 min-w-[160px] rounded-[12px] border border-[#d2d2d7] bg-white p-1 text-[#1d1d1f]">
                     {availableLocales.map((locale) => {
                       const isSelected = locale.code === i18n.language
                       return (
@@ -142,10 +138,10 @@ export function AppShell({ children }: { children: ReactNode }) {
                           type="button"
                           onClick={() => handleLocaleChange(locale.code)}
                           className={cn(
-                            'flex w-full items-center justify-between gap-2 px-3 py-2 text-left text-sm text-white/90 transition-colors first:rounded-t-lg last:rounded-b-lg',
+                            'flex w-full items-center justify-between gap-2 rounded-[9px] px-3 py-2 text-left text-sm transition-colors',
                             isSelected
-                              ? 'bg-white/10 font-medium text-white'
-                              : 'hover:bg-white/5 hover:text-white',
+                              ? 'bg-[#f5f5f7] font-medium text-[#1d1d1f]'
+                              : 'text-[#424245] hover:bg-[#f5f5f7] hover:text-[#1d1d1f]',
                           )}
                         >
                           <span className="flex items-center gap-2">
@@ -153,7 +149,7 @@ export function AppShell({ children }: { children: ReactNode }) {
                             <span>{locale.label}</span>
                           </span>
                           {isSelected && (
-                            <Check className="size-4 text-[#f9c74f]" />
+                            <Check className="size-4 text-[#0066cc]" />
                           )}
                         </button>
                       )
@@ -161,7 +157,11 @@ export function AppShell({ children }: { children: ReactNode }) {
                   </div>
                 )}
               </div>
-              <Button variant="accent" asChild>
+              <Button
+                variant="ghost"
+                asChild
+                className="text-white/85 hover:bg-white/10 hover:text-white"
+              >
                 <a
                   href={GITHUB_URL}
                   target="_blank"
@@ -169,9 +169,7 @@ export function AppShell({ children }: { children: ReactNode }) {
                   className="flex items-center gap-2"
                 >
                   <Github className="size-4" />
-                  <span className="uppercase tracking-wide text-xs">
-                    {t('app.buttons.github')}
-                  </span>
+                  <span className="text-xs">{t('app.buttons.github')}</span>
                 </a>
               </Button>
             </div>
@@ -180,7 +178,7 @@ export function AppShell({ children }: { children: ReactNode }) {
           <Button
             size="icon"
             variant="ghost"
-            className="md:hidden bg-white text-[#0f1e3d] shadow-md shadow-black/10 hover:bg-white/90"
+            className="bg-transparent text-white hover:bg-white/10 hover:text-white md:hidden"
             onClick={() => setOpen(true)}
             aria-label={t('app.buttons.openNav')}
           >
@@ -189,22 +187,22 @@ export function AppShell({ children }: { children: ReactNode }) {
         </div>
       </header>
 
-      <main className="mx-auto w-full max-w-6xl px-4 py-8">{children}</main>
+      <main className="mx-auto w-full max-w-6xl px-4 py-8 md:py-10">
+        {children}
+      </main>
 
       <div
         className={cn(
-          'fixed inset-y-0 right-0 z-40 w-80 bg-white p-6 shadow-2xl transition-transform md:hidden',
+          'fixed inset-y-0 right-0 z-40 w-80 border-l border-[#d2d2d7] bg-white p-6 transition-transform md:hidden',
           open ? 'translate-x-0' : 'translate-x-full',
         )}
       >
         <div className="mb-6 flex items-center justify-between">
           <div>
-            <p className="text-lg font-semibold text-[#0f1e3d]">
+            <p className="text-lg font-semibold text-[#1d1d1f]">
               {t('app.menu.title')}
             </p>
-            <p className="text-xs text-[#0f1e3d]/70">
-              {t('app.menu.subtitle')}
-            </p>
+            <p className="text-xs text-[#6e6e73]">{t('app.menu.subtitle')}</p>
           </div>
           <Button
             variant="outline"
@@ -222,7 +220,7 @@ export function AppShell({ children }: { children: ReactNode }) {
               aria-label="Change language"
               value={i18n.language}
               onChange={(event) => handleLocaleChange(event.target.value)}
-              className="w-full rounded-lg border border-[#0f1e3d]/20 bg-white px-3 py-2 text-sm text-[#0f1e3d] outline-none transition-all hover:bg-[#0f1e3d]/5"
+              className="w-full rounded-[12px] border border-[#d2d2d7] bg-white px-3 py-2 text-sm text-[#1d1d1f] outline-none transition-colors hover:bg-[#f5f5f7]"
             >
               {availableLocales.map((locale) => (
                 <option key={locale.code} value={locale.code}>
@@ -247,7 +245,7 @@ export function AppShell({ children }: { children: ReactNode }) {
 
       {open && (
         <div
-          className="fixed inset-0 z-30 bg-black/40 backdrop-blur-sm md:hidden"
+          className="fixed inset-0 z-30 bg-black/25 backdrop-blur-sm md:hidden"
           onClick={() => setOpen(false)}
         />
       )}

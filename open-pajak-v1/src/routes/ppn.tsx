@@ -204,12 +204,12 @@ function PpnPage() {
             </FormField>
           </div>
 
-          <div className="flex items-center justify-between rounded-2xl border border-[#0f1e3d]/15 bg-[#0f1e3d]/5 px-4 py-3">
+          <div className="flex items-center justify-between rounded-[18px] border border-[#d2d2d7]/70 bg-[#f5f5f7] px-4 py-3">
             <div>
-              <p className="text-sm font-semibold text-[#0f1e3d]">
+              <p className="text-sm font-semibold text-[#1d1d1f]">
                 {t('ppnCalc.form.toggleTitle')}
               </p>
-              <p className="text-xs text-[#0f1e3d]/70">
+              <p className="text-xs text-[#6e6e73]">
                 {t('ppnCalc.form.toggleHint')}
               </p>
             </div>

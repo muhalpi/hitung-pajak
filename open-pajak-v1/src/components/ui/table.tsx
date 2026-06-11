@@ -12,7 +12,7 @@ export function Table({
 }: TableHTMLAttributes<HTMLTableElement>) {
   return (
     <table
-      className={cn('w-full caption-bottom text-sm text-[#0f1e3d]', className)}
+      className={cn('w-full caption-bottom text-sm text-[#1d1d1f]', className)}
       {...props}
     />
   )
@@ -24,7 +24,7 @@ export function TableHeader({
 }: HTMLAttributes<HTMLTableSectionElement>) {
   return (
     <thead
-      className={cn('text-xs uppercase text-[#0f1e3d]/60', className)}
+      className={cn('text-xs uppercase text-[#6e6e73]', className)}
       {...props}
     />
   )
@@ -36,7 +36,7 @@ export function TableBody({
 }: HTMLAttributes<HTMLTableSectionElement>) {
   return (
     <tbody
-      className={cn('divide-y divide-[#0f1e3d]/5', className)}
+      className={cn('divide-y divide-[#d2d2d7]/60', className)}
       {...props}
     />
   )
@@ -48,7 +48,7 @@ export function TableRow({
 }: HTMLAttributes<HTMLTableRowElement>) {
   return (
     <tr
-      className={cn('hover:bg-[#0f1e3d]/5 transition-colors', className)}
+      className={cn('transition-colors hover:bg-[#f5f5f7]', className)}
       {...props}
     />
   )
@@ -60,7 +60,7 @@ export function TableHead({
 }: ThHTMLAttributes<HTMLTableCellElement>) {
   return (
     <th
-      className={cn('px-3 py-2 text-left font-medium tracking-wide', className)}
+      className={cn('px-3 py-3 text-left font-medium', className)}
       {...props}
     />
   )
@@ -71,6 +71,6 @@ export function TableCell({
   ...props
 }: TdHTMLAttributes<HTMLTableCellElement>) {
   return (
-    <td className={cn('px-3 py-2 align-top text-sm', className)} {...props} />
+    <td className={cn('px-3 py-3 align-top text-sm', className)} {...props} />
   )
 }

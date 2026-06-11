@@ -1,4 +1,4 @@
-# Open Pajak Codebase Recommendations
+# Hitung Pajak Codebase Recommendations
 
 Audit date: 2026-06-08
 

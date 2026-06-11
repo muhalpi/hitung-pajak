@@ -119,16 +119,16 @@ export function ReceiptHistoryDrawer({
 
   return (
     <div
-      className={`fixed inset-y-0 right-0 z-40 flex w-full max-w-lg transform flex-col bg-white shadow-2xl transition-transform duration-300 ${
+      className={`fixed inset-y-0 right-0 z-40 flex w-full max-w-lg transform flex-col border-l border-[#d2d2d7] bg-white transition-transform duration-300 ${
         open ? 'translate-x-0' : 'translate-x-full'
       }`}
     >
-      <div className="flex items-center justify-between border-b border-[#0f1e3d]/10 px-4 py-4">
+      <div className="flex items-center justify-between border-b border-[#d2d2d7]/70 px-4 py-4">
         <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.4em] text-[#f5a524]">
+          <p className="text-sm text-[#0066cc]">
             {t('receipts.history.title')}
           </p>
-          <p className="text-sm text-[#0f1e3d]/70">
+          <p className="text-sm text-[#6e6e73]">
             {t('receipts.history.recordsCount', { count: receipts.length })}
           </p>
         </div>
@@ -141,7 +141,7 @@ export function ReceiptHistoryDrawer({
           <X />
         </Button>
       </div>
-      <div className="border-b border-[#0f1e3d]/10 px-4 py-3">
+      <div className="border-b border-[#d2d2d7]/70 px-4 py-3">
         <div className="flex flex-col gap-2">
           <Input
             type="search"
@@ -151,7 +151,7 @@ export function ReceiptHistoryDrawer({
             className="text-sm"
           />
           <div className="flex items-center justify-between gap-4 text-sm">
-            <label className="text-xs font-semibold uppercase tracking-[0.3em] text-[#5f6680]">
+            <label className="text-xs font-semibold text-[#6e6e73]">
               {t('receipts.history.sortLabel')}
             </label>
             <select
@@ -159,7 +159,7 @@ export function ReceiptHistoryDrawer({
               onChange={(event) =>
                 setSortMode(event.target.value as typeof sortMode)
               }
-              className="rounded-xl border border-[#d7dbe8] px-3 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-[#0f1e3d]"
+              className="rounded-[12px] border border-[#d2d2d7] px-3 py-2 text-xs font-semibold text-[#1d1d1f]"
             >
               <option value="newest">{t('receipts.history.sortNewest')}</option>
               <option value="oldest">{t('receipts.history.sortOldest')}</option>
@@ -172,7 +172,7 @@ export function ReceiptHistoryDrawer({
       <div className="flex h-full flex-col overflow-hidden">
         <div className="flex-1 space-y-4 overflow-y-auto px-4 py-4">
           {filteredGroups.length === 0 ? (
-            <p className="rounded-xl border border-dashed border-[#0f1e3d]/20 bg-[#f9fafc] p-4 text-sm text-[#0f1e3d]/70">
+            <p className="rounded-[12px] border border-dashed border-[#d2d2d7] bg-[#f5f5f7] p-4 text-sm text-[#6e6e73]">
               {searchTerm
                 ? t('receipts.history.noResult')
                 : t('receipts.history.empty')}
@@ -181,14 +181,14 @@ export function ReceiptHistoryDrawer({
             filteredGroups.map((group) => (
               <div
                 key={group.groupId}
-                className="rounded-2xl border border-[#0f1e3d]/10 bg-white p-4 shadow-sm"
+                className="rounded-[18px] border border-[#d2d2d7]/70 bg-white p-4"
               >
                 <div className="mb-3 flex items-center justify-between">
                   <div>
-                    <p className="text-sm font-semibold text-[#0f1e3d]">
+                    <p className="text-sm font-semibold text-[#1d1d1f]">
                       {group.groupName}
                     </p>
-                    <p className="text-xs uppercase tracking-[0.3em] text-[#0f1e3d]/60">
+                    <p className="text-xs text-[#6e6e73]">
                       {group.entries.length}{' '}
                       {t('receipts.history.countLabel', {
                         count: group.entries.length,
@@ -200,14 +200,14 @@ export function ReceiptHistoryDrawer({
                   {group.entries.map((entry) => (
                     <div
                       key={entry.id}
-                      className="rounded-xl border border-[#eef1f7] bg-[#f9fafc] p-3 text-sm"
+                      className="rounded-[12px] border border-[#d2d2d7]/70 bg-[#f5f5f7] p-3 text-sm"
                     >
                       <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
                         <div>
-                          <p className="font-semibold text-[#0f1e3d]">
+                          <p className="font-semibold text-[#1d1d1f]">
                             {entry.title}
                           </p>
-                          <p className="text-xs uppercase tracking-[0.3em] text-[#5f6680]">
+                          <p className="text-xs text-[#6e6e73]">
                             {entry.type.toUpperCase()} ·{' '}
                             {formatDate(entry.createdAt, entry.locale)}
                           </p>
@@ -253,18 +253,18 @@ export function ReceiptHistoryDrawer({
             ))
           )}
 
-          <div className="rounded-2xl border border-[#0f1e3d]/10 bg-[#fffdf7] p-4">
-            <p className="text-sm font-semibold text-[#0f1e3d]">
+          <div className="rounded-[18px] border border-[#d2d2d7]/70 bg-[#f5f5f7] p-4">
+            <p className="text-sm font-semibold text-[#1d1d1f]">
               {t('receipts.bulk.title')}
             </p>
-            <p className="text-xs text-[#0f1e3d]/70">
+            <p className="text-xs text-[#6e6e73]">
               {t('receipts.bulk.description')}
             </p>
             <div className="mt-3 flex flex-wrap gap-2">
               <Button variant="outline" size="sm" onClick={onTemplateDownload}>
                 {t('receipts.bulk.downloadTemplate')}
               </Button>
-              <label className="inline-flex cursor-pointer items-center rounded-lg border border-dashed border-[#0f1e3d]/30 px-3 py-2 text-xs font-semibold text-[#0f1e3d]">
+              <label className="inline-flex cursor-pointer items-center rounded-full border border-dashed border-[#86868b] px-3 py-2 text-xs font-semibold text-[#0066cc]">
                 <input
                   type="file"
                   accept=".xls,.xml"
@@ -278,10 +278,10 @@ export function ReceiptHistoryDrawer({
               <p
                 className={`mt-2 text-xs ${
                   bulkStatus.state === 'error'
-                    ? 'text-red-600'
+                    ? 'text-[#d70015]'
                     : bulkStatus.state === 'pending'
-                      ? 'text-[#a66a00]'
-                      : 'text-green-600'
+                      ? 'text-[#0066cc]'
+                      : 'text-[#248a3d]'
                 }`}
               >
                 {bulkStatus.message}
@@ -289,12 +289,12 @@ export function ReceiptHistoryDrawer({
             )}
           </div>
 
-          <div className="rounded-2xl border border-[#0f1e3d]/10 bg-white p-4">
-            <p className="text-sm font-semibold text-[#0f1e3d]">
+          <div className="rounded-[18px] border border-[#d2d2d7]/70 bg-white p-4">
+            <p className="text-sm font-semibold text-[#1d1d1f]">
               {t('receipts.history.batchTitle')}
             </p>
             {batches.length === 0 ? (
-              <p className="text-xs text-[#0f1e3d]/70">
+              <p className="text-xs text-[#6e6e73]">
                 {t('receipts.history.batchEmpty')}
               </p>
             ) : (
@@ -307,14 +307,14 @@ export function ReceiptHistoryDrawer({
                   return (
                     <div
                       key={batch.id}
-                      className="rounded-xl border border-[#eef1f7] bg-[#f9fafc] p-3 text-sm"
+                      className="rounded-[12px] border border-[#d2d2d7]/70 bg-[#f5f5f7] p-3 text-sm"
                     >
                       <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
                         <div>
-                          <p className="font-semibold text-[#0f1e3d]">
+                          <p className="font-semibold text-[#1d1d1f]">
                             {batch.label}
                           </p>
-                          <p className="text-xs uppercase tracking-[0.3em] text-[#5f6680]">
+                          <p className="text-xs text-[#6e6e73]">
                             {batch.type.toUpperCase()} ·{' '}
                             {formatDate(batch.createdAt)}
                           </p>
@@ -342,18 +342,18 @@ export function ReceiptHistoryDrawer({
                         </div>
                       </div>
                       {expanded && batchReceipts.length > 0 && (
-                        <div className="mt-3 space-y-2 border-t border-[#dde2f1] pt-3">
+                        <div className="mt-3 space-y-2 border-t border-[#d2d2d7] pt-3">
                           {batchReceipts.map((entry) => (
                             <div
                               key={`${batch.id}-${entry.id}`}
-                              className="rounded-lg border border-white bg-white/80 p-3"
+                              className="rounded-[12px] border border-[#d2d2d7]/70 bg-white p-3"
                             >
                               <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
                                 <div>
-                                  <p className="font-semibold text-[#0f1e3d]">
+                                  <p className="font-semibold text-[#1d1d1f]">
                                     {entry.title}
                                   </p>
-                                  <p className="text-xs uppercase tracking-[0.3em] text-[#5f6680]">
+                                  <p className="text-xs text-[#6e6e73]">
                                     {entry.type.toUpperCase()} ·{' '}
                                     {formatDate(entry.createdAt, entry.locale)}
                                   </p>

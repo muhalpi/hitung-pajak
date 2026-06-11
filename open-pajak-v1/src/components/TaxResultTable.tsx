@@ -33,7 +33,7 @@ export function TaxResultTable({ breakdown }: TaxResultTableProps) {
   return (
     <div className="overflow-x-auto lg:max-h-[620px]">
       <Table className="text-sm">
-        <TableHeader className="sticky top-0 z-10 bg-white shadow-sm">
+        <TableHeader className="sticky top-0 z-10 bg-white">
           <TableRow>
             <TableHead>{t('table.component')}</TableHead>
             <TableHead>{t('table.value')}</TableHead>
@@ -54,7 +54,7 @@ export function TaxResultTable({ breakdown }: TaxResultTableProps) {
                 <TableRow key={`group-${row.label}-${index}`}>
                   <TableCell
                     colSpan={3}
-                    className="bg-[#fff7e6] text-xs font-semibold uppercase tracking-[0.3em] text-[#886200]"
+                    className="bg-[#f5f5f7] text-xs font-semibold uppercase text-[#6e6e73]"
                   >
                     {row.label}
                   </TableCell>
@@ -65,7 +65,7 @@ export function TaxResultTable({ breakdown }: TaxResultTableProps) {
               return (
                 <TableRow
                   key={`section-${row.label}-${index}`}
-                  className="bg-[#f5f7fb] text-[#0f1e3d] font-semibold uppercase tracking-wide"
+                  className="bg-[#fafafc] font-semibold uppercase text-[#1d1d1f]"
                 >
                   <TableCell colSpan={3}>{row.label}</TableCell>
                 </TableRow>
@@ -74,20 +74,20 @@ export function TaxResultTable({ breakdown }: TaxResultTableProps) {
 
             const valueClasses =
               row.variant === 'total'
-                ? 'font-bold text-[#0f1e3d]'
+                ? 'font-semibold text-[#1d1d1f]'
                 : row.variant === 'subtotal'
-                  ? 'font-semibold text-[#142853]'
+                  ? 'font-semibold text-[#424245]'
                   : ''
 
             return (
               <TableRow key={`${row.label}-${index}`}>
-                <TableCell className="font-medium text-[#0f1e3d]">
+                <TableCell className="font-medium text-[#1d1d1f]">
                   {row.label}
                 </TableCell>
                 <TableCell className={cn('tabular-nums', valueClasses)}>
                   {renderValue(row)}
                 </TableCell>
-                <TableCell className="text-xs text-[#0f1e3d]/70">
+                <TableCell className="text-xs text-[#6e6e73]">
                   {row.note ?? '—'}
                 </TableCell>
               </TableRow>

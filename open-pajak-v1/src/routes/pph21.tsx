@@ -619,7 +619,7 @@ function Pph21Page() {
   }
 
   const handleDownloadTemplate = () => {
-    downloadWorkbook('open-pajak-bulk-template.xls', [
+    downloadWorkbook('hitung-pajak-bulk-template.xls', [
       { name: 'Bulk Template', rows: BULK_TEMPLATE_SHEET },
     ])
   }
@@ -941,12 +941,12 @@ function Pph21Page() {
             )}
 
             {form.subjectType === 'pegawai_tidak_tetap' && (
-              <div className="flex items-center justify-between rounded-2xl border border-[#0f1e3d]/15 bg-[#0f1e3d]/5 px-4 py-3">
+              <div className="flex items-center justify-between rounded-[18px] border border-[#d2d2d7]/70 bg-[#f5f5f7] px-4 py-3">
                 <div>
-                  <p className="text-sm font-semibold text-[#0f1e3d]">
+                  <p className="text-sm font-semibold text-[#1d1d1f]">
                     {t('pph21.toggleDaily.title')}
                   </p>
-                  <p className="text-xs text-[#0f1e3d]/70">
+                  <p className="text-xs text-[#6e6e73]">
                     {t('pph21.toggleDaily.description')}
                   </p>
                 </div>
@@ -1029,7 +1029,7 @@ function Pph21Page() {
             title={t('pph21.info.goodPractice')}
             items={infoItems}
             extra={
-              <p className="text-xs text-[#5a4100]/80">
+              <p className="text-xs text-[#6e6e73]">
                 {t('pph21.info.disclaimer')}
               </p>
             }

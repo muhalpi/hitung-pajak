@@ -1,11 +1,11 @@
 {
   "app": {
-    "brand": "Open Pajak",
-    "brandMain": "Open",
+    "brand": "Hitung Pajak",
+    "brandMain": "Hitung",
     "brandAccent": "Pajak",
-    "tagline": "오픈 소스 세무 도구 키트",
-    "taglineLine1": "Open Source",
-    "taglineLine2": "Tax Toolkit",
+    "tagline": "인도네시아 세금 계산기",
+    "taglineLine1": "인도네시아 세금",
+    "taglineLine2": "계산기",
     "nav": {
       "home": "홈",
       "pph21": "PPh 21/26",
@@ -31,7 +31,7 @@
   },
   "home": {
     "hero": {
-      "eyebrow": "Open Pajak",
+      "eyebrow": "Hitung Pajak",
       "title": "인도네시아 세금 계산기를 한 곳에서.",
       "body": "모든 계산이 브라우저 안에서 처리됩니다. 개인정보나 서버 전송 없이 빠르게 시뮬레이션하거나 신고 전에 세액을 검토하세요.",
       "ctaPrimary": "계산 시작하기",

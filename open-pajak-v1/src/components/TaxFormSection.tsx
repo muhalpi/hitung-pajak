@@ -19,11 +19,11 @@ export function TaxFormSection({
       <CardHeader className="pb-4">
         <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
           <div>
-            <CardTitle className="text-lg font-semibold text-[#0f1e3d]">
+            <CardTitle className="text-[21px] font-semibold text-[#1d1d1f]">
               {title}
             </CardTitle>
             {description && (
-              <p className="mt-1 text-sm text-[#0f1e3d]/70">{description}</p>
+              <p className="mt-1 text-sm text-[#6e6e73]">{description}</p>
             )}
           </div>
           {actions ? (

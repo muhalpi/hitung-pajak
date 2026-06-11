@@ -6,7 +6,7 @@ export function Alert({ className, ...props }: HTMLAttributes<HTMLDivElement>) {
     <div
       role="alert"
       className={cn(
-        'rounded-2xl border border-[#f9c74f]/40 bg-[#fff9ec] px-4 py-3 text-sm text-[#5a4100]',
+        'rounded-[18px] border border-[#d2d2d7]/70 bg-[#f5f5f7] px-4 py-3 text-sm text-[#424245]',
         className,
       )}
       {...props}

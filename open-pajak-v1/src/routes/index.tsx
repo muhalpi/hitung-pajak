@@ -60,23 +60,28 @@ function HomePage() {
 
   return (
     <div className="space-y-10">
-      <section className="grid gap-8 rounded-[32px] bg-white/80 p-8 shadow-xl shadow-[#0f1e3d]/5 md:grid-cols-2 md:items-center">
-        <div className="space-y-4">
-          <p className="text-xs font-semibold uppercase tracking-[0.4em] text-[#f5a524]">
-            {t('home.hero.eyebrow')}
-          </p>
-          <h1 className="text-4xl font-bold text-[#0f1e3d]">
+      <section className="rounded-[28px] bg-[#1d1d1f] px-6 py-12 text-white md:px-10 lg:px-14">
+        <div className="mx-auto max-w-3xl space-y-5 text-center">
+          <p className="text-sm text-[#2997ff]">{t('home.hero.eyebrow')}</p>
+          <h1 className="text-4xl font-semibold leading-tight md:text-6xl">
             {t('home.hero.title')}
           </h1>
-          <p className="text-[#0f1e3d]/70 text-lg">{t('home.hero.body')}</p>
-          <div className="flex flex-wrap gap-3">
-            <Button asChild size="lg" variant="accent">
+          <p className="text-[19px] leading-relaxed text-white/72">
+            {t('home.hero.body')}
+          </p>
+          <div className="flex flex-wrap justify-center gap-3">
+            <Button asChild size="lg">
               <Link to="/pph21">
                 {t('home.hero.ctaPrimary')}{' '}
                 <ArrowRightIcon className="size-4" />
               </Link>
             </Button>
-            <Button variant="outline" asChild size="lg">
+            <Button
+              variant="ghost"
+              asChild
+              size="lg"
+              className="text-[#2997ff] hover:bg-white/10 hover:text-[#2997ff]"
+            >
               <a
                 href={GITHUB_URL}
                 target="_blank"
@@ -90,7 +95,7 @@ function HomePage() {
           </div>
         </div>
 
-        <div className="grid gap-4">
+        <div className="mt-10 grid overflow-hidden rounded-[18px] border border-white/10 bg-white/10 md:grid-cols-3">
           {features.map((feature, index) => {
             const icons = [Calculator, ShieldCheck, Sparkles]
             const Icon = icons[index] ?? Calculator
@@ -109,31 +114,32 @@ function HomePage() {
       <section className="space-y-4">
         <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
           <div>
-            <h2 className="text-2xl font-semibold text-[#0f1e3d]">
+            <h2 className="text-3xl font-semibold text-[#1d1d1f]">
               {t('home.calculatorList.title')}
             </h2>
-            <p className="text-sm text-[#0f1e3d]/70">
+            <p className="text-[17px] text-[#6e6e73]">
               {t('home.calculatorList.subtitle')}
             </p>
           </div>
         </div>
         <div className="grid gap-4 md:grid-cols-2">
           {calculatorCards.map((calc) => (
-            <Card key={calc.to} className="p-0">
-              <CardContent className="p-6 space-y-3">
-                <p className="text-sm font-semibold text-[#f5a524]">
-                  {t('app.brand')}
-                </p>
+            <Card
+              key={calc.to}
+              className="p-0 transition-colors hover:border-[#0066cc]/40"
+            >
+              <CardContent className="space-y-4 p-6">
+                <p className="text-sm text-[#0066cc]">{t('app.brand')}</p>
                 <div className="flex items-center justify-between gap-4">
                   <div>
-                    <h3 className="text-xl font-bold text-[#0f1e3d]">
+                    <h3 className="text-[21px] font-semibold text-[#1d1d1f]">
                       {t(calc.titleKey)}
                     </h3>
-                    <p className="text-sm text-[#0f1e3d]/70">
+                    <p className="mt-1 text-sm leading-relaxed text-[#6e6e73]">
                       {t(calc.descKey)}
                     </p>
                   </div>
-                  <Button asChild variant="accent" size="icon">
+                  <Button asChild variant="outline" size="icon">
                     <Link to={calc.to}>
                       <ArrowRightIcon className="size-4" />
                     </Link>
@@ -160,13 +166,13 @@ function Highlight({
   description: string
 }) {
   return (
-    <div className="flex gap-4 rounded-3xl border border-[#0f1e3d]/10 bg-[#0f1e3d]/5 p-4 text-[#0f1e3d] md:items-center">
-      <div className="flex aspect-square size-14 items-center justify-center rounded-2xl bg-white text-[#0f1e3d] shadow-lg">
+    <div className="flex gap-4 bg-[#272729] p-5 text-white md:items-start">
+      <div className="flex aspect-square size-12 items-center justify-center rounded-full bg-white/10 text-white">
         <div className="flex size-full items-center justify-center">{icon}</div>
       </div>
       <div className="space-y-1">
         <p className="text-base font-semibold">{title}</p>
-        <p className="text-sm text-[#0f1e3d]/80">{description}</p>
+        <p className="text-sm leading-relaxed text-white/65">{description}</p>
       </div>
     </div>
   )

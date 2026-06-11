@@ -1,11 +1,11 @@
 {
   "app": {
-    "brand": "Open Pajak",
-    "brandMain": "Open",
+    "brand": "Hitung Pajak",
+    "brandMain": "Hitung",
     "brandAccent": "Pajak",
-    "tagline": "オープンソース税務ツールキット",
-    "taglineLine1": "Open Source",
-    "taglineLine2": "Tax Toolkit",
+    "tagline": "インドネシア税務計算ツール",
+    "taglineLine1": "インドネシア税務",
+    "taglineLine2": "計算ツール",
     "nav": {
       "home": "ホーム",
       "pph21": "PPh21/26",
@@ -31,7 +31,7 @@
   },
   "home": {
     "hero": {
-      "eyebrow": "Open Pajak",
+      "eyebrow": "Hitung Pajak",
       "title": "インドネシア税の計算をこの一つで。",
       "body": "すべての計算はブラウザ内で完結。個人情報やサーバー送信は不要です。申告前のチェックやクイックシミュレーションに最適です。",
       "ctaPrimary": "計算を始める",

@@ -32,14 +32,10 @@ export function ReceiptActionsPanel({
   }
 
   return (
-    <Card className="flex flex-col gap-4 border-[#0f1e3d]/10 bg-white/80 p-5">
-      <div className="flex flex-col gap-1 text-[#0f1e3d]">
-        <p className="text-xs font-semibold uppercase tracking-[0.4em] text-[#f5a524]">
-          {t('receipts.panel.title')}
-        </p>
-        <p className="text-sm text-[#0f1e3d]/70">
-          {t('receipts.panel.subtitle')}
-        </p>
+    <Card className="flex flex-col gap-4 p-5">
+      <div className="flex flex-col gap-1 text-[#1d1d1f]">
+        <p className="text-sm text-[#0066cc]">{t('receipts.panel.title')}</p>
+        <p className="text-sm text-[#6e6e73]">{t('receipts.panel.subtitle')}</p>
       </div>
       <div className="flex flex-wrap gap-3">
         <Button onClick={onPreview} disabled={disabled}>

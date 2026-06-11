@@ -71,7 +71,7 @@ const sanitizeFilename = (value: string) =>
     .replace(/[\\/:*?"<>|]/g, '-')
     .replace(/\s+/g, '-')
     .replace(/-+/g, '-')
-    .slice(0, 80) || 'open-pajak'
+    .slice(0, 80) || 'hitung-pajak'
 
 export const downloadWorkbook = (
   filename: string,
@@ -126,6 +126,9 @@ export const openPrintableReceipt = (receipt: TaxReceipt) => {
 
   const t = (key: string, fallback?: string) =>
     i18n.t(key, { defaultValue: fallback })
+  const appUrl = window.location.origin || '/'
+  const brandLabel = t('app.brand', 'Hitung Pajak')
+  const taglineLabel = t('app.tagline', 'Kalkulator Pajak Indonesia')
   const visitSiteLabel = t('receipts.print.visitSite', 'Visit Site')
   const githubLabel = t('receipts.print.github', 'GitHub')
   const dateFormatter = new Intl.DateTimeFormat(receipt.locale, {
@@ -166,32 +169,32 @@ export const openPrintableReceipt = (receipt: TaxReceipt) => {
 
   const styles = `
     @page { margin: 0; }
-    body { font-family: 'Inter', 'Sora', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #020512; margin:0; color: #0f1e3d; }
-    .header-shell { background: linear-gradient(120deg,#030714,#152c5c); padding: 36px 0; color: white; }
+    body { font-family: 'SF Pro Text', system-ui, -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans-serif; background: #f5f5f7; margin:0; color: #1d1d1f; }
+    .header-shell { background: #1d1d1f; padding: 36px 0; color: white; }
     .shell { max-width: 780px; margin: 0 auto; padding: 0 32px; }
     .header { display: flex; justify-content: space-between; align-items: center; gap: 16px; color: white; }
     .logo { display: flex; gap: 12px; align-items: center; }
-    .logo-mark { width: 52px; height: 52px; border-radius: 18px; background: linear-gradient(135deg,#050c1d,#142853); color: #fff; font-weight: 700; display: flex; align-items: center; justify-content: center; font-size: 22px; box-shadow: inset 0 4px 14px rgba(0,0,0,0.3); letter-spacing: 0.05em; }
-    .logo-mark span:last-child { color: #f9c74f; margin-left: 2px; }
+    .logo-mark { width: 52px; height: 52px; border-radius: 999px; border: 1px solid rgba(255,255,255,0.2); color: #fff; font-weight: 600; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+    .logo-mark span:last-child { color: #cfcfcf; margin-left: 2px; }
     .logo-text { line-height: 1.2; }
-    .logo-text .eyebrow { font-size: 11px; letter-spacing: 0.35em; text-transform: uppercase; color: #f5a524; font-weight: 600; }
-    .logo-text .tagline { font-size: 12px; text-transform: uppercase; letter-spacing: 0.3em; color: #f6f7fb; }
+    .logo-text .eyebrow { font-size: 12px; color: #2997ff; font-weight: 600; }
+    .logo-text .tagline { font-size: 12px; color: #cfcfcf; }
     .cta-links { display: flex; gap: 10px; }
-    .cta-links a { text-decoration: none; padding: 10px 18px; border-radius: 999px; font-size: 11px; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; border: 1px solid #f5c768; color: #0f1e3d; background: #fff5da; display: inline-flex; align-items: center; gap:6px; }
-    .cta-links a.secondary { border-color: white; background: transparent; color: white; }
+    .cta-links a { text-decoration: none; padding: 10px 18px; border-radius: 999px; font-size: 12px; font-weight: 400; border: 1px solid #0066cc; color: white; background: #0066cc; display: inline-flex; align-items: center; gap:6px; }
+    .cta-links a.secondary { border-color: #2997ff; background: transparent; color: #2997ff; }
     .cta-links svg { width: 14px; height: 14px; fill: currentColor; }
-    .page { max-width: 780px; margin: -12px auto 40px; background: white; border-radius: 24px 24px 0 0; padding: 32px; }
+    .page { max-width: 780px; margin: 0 auto 40px; background: white; border-radius: 0 0 24px 24px; padding: 32px; }
     .content { padding-top: 8px; }
-    h1 { margin: 0; font-size: 20px; text-transform: uppercase; letter-spacing: 0.4em; color: #f5a524; }
-    h2 { margin: 8px 0 24px; font-size: 32px; color: #0f1e3d; }
+    h1 { margin: 0; font-size: 18px; color: #0066cc; }
+    h2 { margin: 8px 0 24px; font-size: 32px; color: #1d1d1f; }
     table { width: 100%; border-collapse: collapse; margin-top: 16px; font-size: 14px; }
-    th { text-align: left; font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase; color: #5f4400; border-bottom: 1px solid #f4d296; padding-bottom: 8px; }
-    td { padding: 12px 0; border-bottom: 1px solid #f4f1ea; }
+    th { text-align: left; font-size: 11px; text-transform: uppercase; color: #6e6e73; border-bottom: 1px solid #d2d2d7; padding-bottom: 8px; }
+    td { padding: 12px 0; border-bottom: 1px solid #d2d2d7; }
     .summary { display: grid; grid-template-columns: repeat(auto-fit,minmax(180px,1fr)); gap: 16px; margin-bottom: 24px; }
-    .summary div { background: #fff9eb; border-radius: 12px; padding: 12px; border: 1px solid #f6ce7d; }
-    .summary span { display: block; text-transform: uppercase; font-size: 11px; letter-spacing: 0.3em; color: #886200; margin-bottom: 6px; }
+    .summary div { background: #f5f5f7; border-radius: 12px; padding: 12px; border: 1px solid #d2d2d7; }
+    .summary span { display: block; font-size: 11px; color: #6e6e73; margin-bottom: 6px; }
     .summary strong { font-size: 18px; }
-    .meta { display: flex; flex-wrap: wrap; gap: 12px; font-size: 12px; color: #55607a; }
+    .meta { display: flex; flex-wrap: wrap; gap: 12px; font-size: 12px; color: #6e6e73; }
   `
 
   const receiptHtml = `
@@ -206,14 +209,14 @@ export const openPrintableReceipt = (receipt: TaxReceipt) => {
           <div class="shell">
             <div class="header">
               <div class="logo">
-                <div class="logo-mark"><span>O</span><span>P</span></div>
+                <div class="logo-mark"><span>H</span><span>P</span></div>
                 <div class="logo-text">
-                  <div class="eyebrow">Open Pajak</div>
-                  <div class="tagline">Open Source Tax Toolkit</div>
+                  <div class="eyebrow">${escapeHtml(brandLabel)}</div>
+                  <div class="tagline">${escapeHtml(taglineLabel)}</div>
                 </div>
               </div>
               <div class="cta-links">
-                <a href="https://openpajak.hamardikan.com" target="_blank" rel="noreferrer">${visitSiteLabel}</a>
+                <a href="${escapeHtml(appUrl)}" target="_blank" rel="noreferrer">${visitSiteLabel}</a>
                 <a class="secondary" href="https://github.com/muhalpi/hitung-pajak" target="_blank" rel="noreferrer">
                   <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12.02c0 5.1 3.3 9.42 7.89 10.95.58.1.79-.25.79-.55 0-.27-.01-1.15-.02-2.08-3.21.7-3.89-1.55-3.89-1.55-.53-1.36-1.28-1.72-1.28-1.72-1.05-.72.08-.71.08-.71 1.16.08 1.77 1.2 1.77 1.2 1.03 1.76 2.7 1.25 3.36.95.1-.75.4-1.25.72-1.54-2.56-.29-5.25-1.28-5.25-5.69 0-1.26.45-2.28 1.2-3.09-.12-.3-.52-1.52.11-3.16 0 0 .97-.31 3.18 1.18a11.07 11.07 0 0 1 5.79 0c2.2-1.49 3.17-1.18 3.17-1.18.64 1.64.24 2.86.12 3.16.75.81 1.2 1.83 1.2 3.09 0 4.42-2.7 5.39-5.27 5.67.41.36.77 1.07.77 2.16 0 1.56-.02 2.82-.02 3.2 0 .31.21.66.8.55 4.58-1.54 7.88-5.85 7.88-10.95C23.5 5.65 18.35.5 12 .5Z"/></svg>
                   ${githubLabel}

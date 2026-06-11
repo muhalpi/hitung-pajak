@@ -32,14 +32,14 @@ export function TaxPageLayout({
   const { t } = useTranslation()
   return (
     <section className={cn('space-y-6', className)}>
-      <div className="space-y-3 text-center lg:text-left">
-        <p className="text-xs font-semibold uppercase tracking-widest text-[#f5a524]">
-          {t('app.brand')}
-        </p>
-        <h1 className="text-3xl font-bold tracking-tight text-[#0f1e3d]">
+      <div className="mx-auto max-w-3xl space-y-3 text-center">
+        <p className="text-sm text-[#0066cc]">{t('app.brand')}</p>
+        <h1 className="text-4xl font-semibold leading-tight text-[#1d1d1f] md:text-5xl">
           {title}
         </h1>
-        <p className="text-[#0f1e3d]/70 text-balance">{description}</p>
+        <p className="text-balance text-[17px] leading-relaxed text-[#6e6e73]">
+          {description}
+        </p>
       </div>
 
       <div className="grid gap-6 lg:grid-cols-2">
@@ -54,11 +54,7 @@ export function TaxPageLayout({
 
       <div className="grid gap-6 lg:grid-cols-2">
         <Card>{explanation}</Card>
-        {info ? (
-          <Card className="border-[#f9c74f]/50 bg-[#fff9eb]">{info}</Card>
-        ) : (
-          <div />
-        )}
+        {info ? <Card className="bg-[#f5f5f7]">{info}</Card> : <div />}
       </div>
 
       <FormulaSourceNote />

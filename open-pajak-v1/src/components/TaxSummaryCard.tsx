@@ -27,13 +27,13 @@ export function TaxSummaryCard({
     typeof takeHomeAnnual === 'number' || typeof takeHomePerPeriod === 'number'
 
   return (
-    <Card className="border border-[#f6ce7d]/60 bg-gradient-to-br from-[#fffaf2] to-[#fff4d8] px-6 py-4 shadow-sm">
+    <Card className="border-[#1d1d1f] bg-[#1d1d1f] px-6 py-5 text-white">
       <div className={`grid gap-6 ${showTakeHome ? 'lg:grid-cols-2' : ''}`}>
         <div className="space-y-3">
-          <CardTitle className="text-xs font-semibold uppercase tracking-[0.3em] text-[#967000]">
+          <CardTitle className="text-sm font-normal text-white/70">
             {taxLabel}
           </CardTitle>
-          <div className="space-y-2 text-sm text-[#0f1e3d]">
+          <div className="space-y-2 text-sm text-white">
             <SummaryMetric label={t('summary.totalTax')} value={total} />
             {typeof terPerPeriod === 'number' && (
               <SummaryMetric
@@ -48,17 +48,15 @@ export function TaxSummaryCard({
               />
             )}
           </div>
-          {meta && (
-            <p className="text-xs font-medium text-[#5a4100]/80">{meta}</p>
-          )}
+          {meta && <p className="text-xs text-white/60">{meta}</p>}
         </div>
 
         {showTakeHome && (
           <div className="space-y-3">
-            <CardTitle className="text-xs font-semibold uppercase tracking-[0.3em] text-[#967000]">
+            <CardTitle className="text-sm font-normal text-white/70">
               {t('summary.takeHome')}
             </CardTitle>
-            <div className="space-y-2 text-sm text-[#0f1e3d]">
+            <div className="space-y-2 text-sm text-white">
               {typeof takeHomeAnnual === 'number' && (
                 <SummaryMetric
                   label={t('summary.thpAnnual')}
@@ -81,11 +79,9 @@ export function TaxSummaryCard({
 
 function SummaryMetric({ label, value }: { label: string; value: number }) {
   return (
-    <div className="flex items-center justify-between border-t border-[#f6ce7d]/60 pt-1">
-      <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[#5f4400]">
-        {label}
-      </span>
-      <span className="text-lg font-semibold text-[#0f1e3d]">
+    <div className="flex items-center justify-between border-t border-white/15 pt-2">
+      <span className="text-xs text-white/60">{label}</span>
+      <span className="text-lg font-semibold text-white">
         {formatCurrency(value)}
       </span>
     </div>

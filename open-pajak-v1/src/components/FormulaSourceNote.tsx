@@ -3,13 +3,13 @@ import { useTranslation } from 'react-i18next'
 export function FormulaSourceNote() {
   const { t } = useTranslation()
   return (
-    <div className="rounded-2xl border border-[#0f1e3d]/10 bg-white/90 p-4 text-sm text-[#0f1e3d] shadow-sm shadow-[#0f1e3d]/5">
+    <div className="rounded-[18px] border border-[#d2d2d7]/70 bg-white p-4 text-sm text-[#1d1d1f]">
       <p className="font-semibold">{t('formulaSource.title')}</p>
-      <p className="mt-1 text-[#0f1e3d]/70">
+      <p className="mt-1 text-[#6e6e73]">
         {t('formulaSource.body')}{' '}
         <a
           href="/Buku_PPh2126_Release_20240108.pdf"
-          className="font-semibold text-[#0f1e3d]"
+          className="font-normal text-[#0066cc]"
           download
         >
           {t('formulaSource.link')}
