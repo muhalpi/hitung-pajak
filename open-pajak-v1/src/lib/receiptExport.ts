@@ -73,6 +73,76 @@ const sanitizeFilename = (value: string) =>
     .replace(/-+/g, '-')
     .slice(0, 80) || 'hitung-pajak'
 
+type ReceiptBreakdownRow = TaxReceipt['breakdown'][number]
+
+type PrintableBreakdownSection = {
+  heading?: string
+  rows: Array<ReceiptBreakdownRow>
+}
+
+const buildPrintableBreakdownSections = (rows: Array<ReceiptBreakdownRow>) => {
+  const sections: Array<PrintableBreakdownSection> = []
+  let current: PrintableBreakdownSection = { rows: [] }
+
+  rows.forEach((row) => {
+    if (row.variant === 'spacer') {
+      if (current.rows.length > 0) {
+        sections.push(current)
+        current = { rows: [] }
+      }
+      return
+    }
+
+    if (row.variant === 'group' || row.variant === 'section') {
+      if (current.rows.length > 0) {
+        sections.push(current)
+      }
+      current = { heading: row.label, rows: [] }
+      return
+    }
+
+    current.rows.push(row)
+  })
+
+  if (current.rows.length > 0) {
+    sections.push(current)
+  }
+
+  return sections
+}
+
+const printableRowClass = (row: ReceiptBreakdownRow) => {
+  if (row.variant === 'total') return 'breakdown-row total-row'
+  if (row.variant === 'subtotal') return 'breakdown-row subtotal-row'
+  return 'breakdown-row'
+}
+
+const renderPrintableBreakdown = (rows: Array<ReceiptBreakdownRow>) =>
+  buildPrintableBreakdownSections(rows)
+    .map(
+      (section) => `
+        <section class="breakdown-section">
+          ${
+            section.heading
+              ? `<div class="breakdown-heading">${escapeHtml(section.heading)}</div>`
+              : ''
+          }
+          ${section.rows
+            .map(
+              (row) => `
+                <div class="${printableRowClass(row)}">
+                  <div>${escapeHtml(row.label)}</div>
+                  <div class="value">${escapeHtml(renderRowValue(row.value, row.valueType))}</div>
+                  <div class="note">${escapeHtml(row.note ?? '')}</div>
+                </div>
+              `,
+            )
+            .join('')}
+        </section>
+      `,
+    )
+    .join('')
+
 export const downloadWorkbook = (
   filename: string,
   worksheets: Array<Worksheet>,
@@ -126,11 +196,6 @@ export const openPrintableReceipt = (receipt: TaxReceipt) => {
 
   const t = (key: string, fallback?: string) =>
     i18n.t(key, { defaultValue: fallback })
-  const appUrl = window.location.origin || '/'
-  const brandLabel = t('app.brand', 'Hitung Pajak')
-  const taglineLabel = t('app.tagline', 'Kalkulator Pajak Indonesia')
-  const visitSiteLabel = t('receipts.print.visitSite', 'Visit Site')
-  const githubLabel = t('receipts.print.github', 'GitHub')
   const dateFormatter = new Intl.DateTimeFormat(receipt.locale, {
     dateStyle: 'medium',
     timeStyle: 'short',
@@ -168,33 +233,34 @@ export const openPrintableReceipt = (receipt: TaxReceipt) => {
   }
 
   const styles = `
-    @page { margin: 0; }
-    body { font-family: 'SF Pro Text', system-ui, -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans-serif; background: #f5f5f7; margin:0; color: #1d1d1f; }
-    .header-shell { background: #1d1d1f; padding: 36px 0; color: white; }
-    .shell { max-width: 780px; margin: 0 auto; padding: 0 32px; }
-    .header { display: flex; justify-content: space-between; align-items: center; gap: 16px; color: white; }
-    .logo { display: flex; gap: 12px; align-items: center; }
-    .logo-mark { width: 52px; height: 52px; border-radius: 999px; border: 1px solid rgba(255,255,255,0.2); color: #fff; font-weight: 600; display: flex; align-items: center; justify-content: center; font-size: 18px; }
-    .logo-mark span:last-child { color: #cfcfcf; margin-left: 2px; }
-    .logo-text { line-height: 1.2; }
-    .logo-text .eyebrow { font-size: 12px; color: #2997ff; font-weight: 600; }
-    .logo-text .tagline { font-size: 12px; color: #cfcfcf; }
-    .cta-links { display: flex; gap: 10px; }
-    .cta-links a { text-decoration: none; padding: 10px 18px; border-radius: 999px; font-size: 12px; font-weight: 400; border: 1px solid #0066cc; color: white; background: #0066cc; display: inline-flex; align-items: center; gap:6px; }
-    .cta-links a.secondary { border-color: #2997ff; background: transparent; color: #2997ff; }
-    .cta-links svg { width: 14px; height: 14px; fill: currentColor; }
-    .page { max-width: 780px; margin: 0 auto 40px; background: white; border-radius: 0 0 24px 24px; padding: 32px; }
-    .content { padding-top: 8px; }
-    h1 { margin: 0; font-size: 18px; color: #0066cc; }
-    h2 { margin: 8px 0 24px; font-size: 32px; color: #1d1d1f; }
-    table { width: 100%; border-collapse: collapse; margin-top: 16px; font-size: 14px; }
-    th { text-align: left; font-size: 11px; text-transform: uppercase; color: #6e6e73; border-bottom: 1px solid #d2d2d7; padding-bottom: 8px; }
-    td { padding: 12px 0; border-bottom: 1px solid #d2d2d7; }
-    .summary { display: grid; grid-template-columns: repeat(auto-fit,minmax(180px,1fr)); gap: 16px; margin-bottom: 24px; }
-    .summary div { background: #f5f5f7; border-radius: 12px; padding: 12px; border: 1px solid #d2d2d7; }
-    .summary span { display: block; font-size: 11px; color: #6e6e73; margin-bottom: 6px; }
-    .summary strong { font-size: 18px; }
-    .meta { display: flex; flex-wrap: wrap; gap: 12px; font-size: 12px; color: #6e6e73; }
+    @page { size: A4; margin: 14mm 12mm; }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; background: #ffffff; color: #1d1d1f; }
+    body { font-family: 'SF Pro Text', system-ui, -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans-serif; font-size: 11px; line-height: 1.45; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+    .page { width: 100%; margin: 0; background: #ffffff; }
+    .content { padding: 0; }
+    .receipt-heading { break-inside: avoid; page-break-inside: avoid; }
+    h1 { margin: 0; font-size: 13px; color: #0066cc; font-weight: 600; }
+    h2 { margin: 6px 0 12px; font-size: 26px; line-height: 1.08; color: #1d1d1f; font-weight: 700; }
+    .meta { display: flex; flex-wrap: wrap; gap: 4px 14px; margin: 0 0 10px; color: #424245; break-inside: avoid; page-break-inside: avoid; }
+    .meta div { break-inside: avoid; page-break-inside: avoid; }
+    .summary { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin: 0 0 16px; break-inside: avoid; page-break-inside: avoid; }
+    .summary-card { min-height: 52px; background: #ffffff; border-radius: 9px; padding: 8px 10px; border: 1px solid #d2d2d7; break-inside: avoid; page-break-inside: avoid; }
+    .summary span { display: block; font-size: 9px; color: #424245; margin-bottom: 5px; }
+    .summary strong { display: block; font-size: 15px; line-height: 1.1; }
+    .breakdown-table { margin-top: 10px; }
+    .breakdown-head, .breakdown-row { display: grid; grid-template-columns: 42% 22% minmax(0, 36%); column-gap: 14px; align-items: start; }
+    .breakdown-head { padding: 0 0 6px; border-bottom: 1px solid #c7c7cc; color: #1d1d1f; font-size: 9px; font-weight: 700; text-transform: uppercase; break-after: avoid; page-break-after: avoid; }
+    .breakdown-section { margin-top: 9px; break-inside: avoid-page; page-break-inside: avoid; }
+    .breakdown-heading { padding: 8px 0; border-bottom: 1px solid #d2d2d7; color: #1d1d1f; font-weight: 700; break-after: avoid; page-break-after: avoid; }
+    .breakdown-row { padding: 7px 0; border-bottom: 1px solid #e5e5ea; break-inside: avoid; page-break-inside: avoid; }
+    .breakdown-row .value { font-variant-numeric: tabular-nums; white-space: nowrap; }
+    .breakdown-row .note { color: #424245; }
+    .subtotal-row { font-weight: 600; }
+    .total-row { font-weight: 700; }
+    @media print {
+      .summary, .summary-card, .meta, .breakdown-row, .breakdown-heading { break-inside: avoid; page-break-inside: avoid; }
+    }
   `
 
   const receiptHtml = `
@@ -205,30 +271,12 @@ export const openPrintableReceipt = (receipt: TaxReceipt) => {
         <style>${styles}</style>
       </head>
       <body>
-        <div class="header-shell">
-          <div class="shell">
-            <div class="header">
-              <div class="logo">
-                <div class="logo-mark"><span>H</span><span>P</span></div>
-                <div class="logo-text">
-                  <div class="eyebrow">${escapeHtml(brandLabel)}</div>
-                  <div class="tagline">${escapeHtml(taglineLabel)}</div>
-                </div>
-              </div>
-              <div class="cta-links">
-                <a href="${escapeHtml(appUrl)}" target="_blank" rel="noreferrer">${visitSiteLabel}</a>
-                <a class="secondary" href="https://github.com/muhalpi/hitung-pajak" target="_blank" rel="noreferrer">
-                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12.02c0 5.1 3.3 9.42 7.89 10.95.58.1.79-.25.79-.55 0-.27-.01-1.15-.02-2.08-3.21.7-3.89-1.55-3.89-1.55-.53-1.36-1.28-1.72-1.28-1.72-1.05-.72.08-.71.08-.71 1.16.08 1.77 1.2 1.77 1.2 1.03 1.76 2.7 1.25 3.36.95.1-.75.4-1.25.72-1.54-2.56-.29-5.25-1.28-5.25-5.69 0-1.26.45-2.28 1.2-3.09-.12-.3-.52-1.52.11-3.16 0 0 .97-.31 3.18 1.18a11.07 11.07 0 0 1 5.79 0c2.2-1.49 3.17-1.18 3.17-1.18.64 1.64.24 2.86.12 3.16.75.81 1.2 1.83 1.2 3.09 0 4.42-2.7 5.39-5.27 5.67.41.36.77 1.07.77 2.16 0 1.56-.02 2.82-.02 3.2 0 .31.21.66.8.55 4.58-1.54 7.88-5.85 7.88-10.95C23.5 5.65 18.35.5 12 .5Z"/></svg>
-                  ${githubLabel}
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
         <div class="page">
           <div class="content">
-          <h1>${escapeHtml(t('receipts.print.title'))}</h1>
-          <h2>${escapeHtml(receipt.title)}</h2>
+          <div class="receipt-heading">
+            <h1>${escapeHtml(t('receipts.print.title'))}</h1>
+            <h2>${escapeHtml(receipt.title)}</h2>
+          </div>
           <div class="meta">
             ${
               receipt.id
@@ -255,7 +303,7 @@ export const openPrintableReceipt = (receipt: TaxReceipt) => {
             ${summaryRows
               .map(
                 (row) => `
-                  <div>
+                  <div class="summary-card">
                     <span>${escapeHtml(row.label)}</span>
                     <strong>${escapeHtml(formatCurrency(row.value))}</strong>
                   </div>
@@ -263,28 +311,14 @@ export const openPrintableReceipt = (receipt: TaxReceipt) => {
               )
               .join('')}
           </div>
-          <table>
-            <thead>
-              <tr>
-                <th>${escapeHtml(t('table.component'))}</th>
-                <th>${escapeHtml(t('table.value'))}</th>
-                <th>${escapeHtml(t('table.note'))}</th>
-              </tr>
-            </thead>
-            <tbody>
-              ${receipt.breakdown
-                .map(
-                  (row) => `
-                    <tr>
-                      <td>${escapeHtml(row.label)}</td>
-                      <td>${escapeHtml(renderRowValue(row.value, row.valueType))}</td>
-                      <td>${escapeHtml(row.note ?? '')}</td>
-                    </tr>
-                  `,
-                )
-                .join('')}
-            </tbody>
-          </table>
+          <div class="breakdown-table">
+            <div class="breakdown-head">
+              <div>${escapeHtml(t('table.component'))}</div>
+              <div>${escapeHtml(t('table.value'))}</div>
+              <div>${escapeHtml(t('table.note'))}</div>
+            </div>
+            ${renderPrintableBreakdown(receipt.breakdown)}
+          </div>
           </div>
         </div>
       </body>
@@ -307,7 +341,10 @@ export const openPrintableReceipt = (receipt: TaxReceipt) => {
       // ignore
     }
   }
+  let hasPrinted = false
   const triggerPrint = () => {
+    if (hasPrinted) return
+    hasPrinted = true
     try {
       iframe.contentWindow?.focus()
       iframe.contentWindow?.print()
@@ -320,7 +357,6 @@ export const openPrintableReceipt = (receipt: TaxReceipt) => {
 
   iframe.onload = () => {
     triggerPrint()
-    setTimeout(triggerPrint, 400)
   }
 }
 

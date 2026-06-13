@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 
-import { afterEach, describe, expect, it } from 'vitest'
+import { afterEach, describe, expect, it, vi } from 'vitest'
 import { openPrintableReceipt, parseSpreadsheetXml } from './receiptExport'
 import type { TaxReceipt } from './storage/receipts'
 
@@ -45,6 +45,27 @@ describe('receiptExport', () => {
     expect(iframe?.getAttribute('srcdoc')).not.toContain(
       'Plain <script>alert(1)</script>',
     )
+    expect(iframe?.getAttribute('srcdoc')).not.toContain('header-shell')
+  })
+
+  it('prints a generated receipt iframe only once', () => {
+    openPrintableReceipt(receipt)
+
+    const iframe = document.querySelector('iframe')
+    expect(iframe).not.toBeNull()
+
+    const print = vi.fn()
+    const focus = vi.fn()
+    if (iframe?.contentWindow) {
+      iframe.contentWindow.print = print
+      iframe.contentWindow.focus = focus
+    }
+
+    iframe?.onload?.(new Event('load'))
+    iframe?.onload?.(new Event('load'))
+
+    expect(print).toHaveBeenCalledTimes(1)
+    expect(focus).toHaveBeenCalledTimes(1)
   })
 
   it('parses SpreadsheetML rows including sparse indexes', () => {
