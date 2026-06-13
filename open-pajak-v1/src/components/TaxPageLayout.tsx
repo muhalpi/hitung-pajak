@@ -1,4 +1,3 @@
-import { useTranslation } from 'react-i18next'
 import { cn } from '../lib/cn'
 import { Card } from './ui/card'
 import { FormulaSourceNote } from './FormulaSourceNote'
@@ -29,11 +28,9 @@ export function TaxPageLayout({
   footer,
   className,
 }: TaxPageLayoutProps) {
-  const { t } = useTranslation()
   return (
     <section className={cn('space-y-6', className)}>
       <div className="mx-auto max-w-3xl space-y-3 text-center">
-        <p className="text-sm text-[#0066cc]">{t('app.brand')}</p>
         <h1 className="text-4xl font-semibold leading-tight text-[#1d1d1f] md:text-5xl">
           {title}
         </h1>

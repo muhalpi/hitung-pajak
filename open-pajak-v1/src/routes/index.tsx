@@ -62,7 +62,6 @@ function HomePage() {
     <div className="space-y-10">
       <section className="rounded-[28px] bg-[#1d1d1f] px-6 py-12 text-white md:px-10 lg:px-14">
         <div className="mx-auto max-w-3xl space-y-5 text-center">
-          <p className="text-sm text-[#2997ff]">{t('home.hero.eyebrow')}</p>
           <h1 className="text-4xl font-semibold leading-tight md:text-6xl">
             {t('home.hero.title')}
           </h1>
@@ -129,7 +128,6 @@ function HomePage() {
               className="p-0 transition-colors hover:border-[#0066cc]/40"
             >
               <CardContent className="space-y-4 p-6">
-                <p className="text-sm text-[#0066cc]">{t('app.brand')}</p>
                 <div className="flex items-center justify-between gap-4">
                   <div>
                     <h3 className="text-[21px] font-semibold text-[#1d1d1f]">
